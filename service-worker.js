@@ -1,15 +1,66 @@
-PTE 30 PWA - Dark Mode + Android Chrome Install
+const CACHE_NAME = 'pte30-shell-v4';
+const APP_SHELL = [
+  './',
+  './index.html',
+  './manifest.json',
+  './icons/icon-192.png',
+  './icons/icon-512.png'
+];
 
-UPLOAD THESE FILES TO THE ROOT OF THE GITHUB REPOSITORY:
-- index.html
-- manifest.json
-- service-worker.js
-- icons/icon-192.png
-- icons/icon-512.png
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(APP_SHELL))
+      .then(() => self.skipWaiting())
+  );
+});
 
-Important:
-1. Do NOT upload the ZIP itself as index.html.
-2. GitHub Pages must serve the site over HTTPS.
-3. After committing, wait for GitHub Pages to deploy.
-4. On Android Chrome, clear site data for nhatd11892.github.io/pte-30 and reopen the URL before testing installation, so the old manifest/service worker is not reused.
-5. Chrome controls whether the native install menu is shown; the app cannot force that menu with JavaScript.
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(
+        keys
+          .filter(key => key !== CACHE_NAME)
+          .map(key => caches.delete(key))
+      ))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch', event => {
+  if (event.request.method !== 'GET') return;
+
+  const url = new URL(event.request.url);
+
+  // Do not intercept external CDN/Gemini/etc. requests.
+  if (url.origin !== self.location.origin) return;
+
+  // HTML navigation: network first so GitHub Pages updates arrive quickly.
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+          return response;
+        })
+        .catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
+
+  // Same-origin assets: cache first, then network.
+  event.respondWith(
+    caches.match(event.request).then(cached => {
+      if (cached) return cached;
+
+      return fetch(event.request).then(response => {
+        if (response && response.status === 200 && response.type === 'basic') {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+        }
+        return response;
+      });
+    })
+  );
+});

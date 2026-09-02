@@ -1,70 +1,15 @@
-{
-  "id": "./",
-  "name": "PTE 30 Core Vocabulary Trainer",
-  "short_name": "PTE 30",
-  "description": "500 từ vựng cốt lõi PTE, flashcard, bài tập và AI hỗ trợ học.",
-  "start_url": "./",
-  "scope": "./",
-  "display": "standalone",
-  "display_override": [
-    "standalone"
-  ],
-  "orientation": "portrait-primary",
-  "background_color": "#0f172a",
-  "theme_color": "#4f46e5",
-  "lang": "vi",
-  "dir": "ltr",
-  "prefer_related_applications": false,
-  "icons": [
-    {
-      "src": "./icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "./icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "Học từ vựng",
-      "short_name": "Từ vựng",
-      "url": "./#vocabulary",
-      "icons": [
-        {
-          "src": "./icons/icon-192.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Luyện tập",
-      "short_name": "Luyện tập",
-      "url": "./#practice",
-      "icons": [
-        {
-          "src": "./icons/icon-192.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
-    }
-  ]
-}
+PTE 30 PWA - Dark Mode + Android Chrome Install
+
+UPLOAD THESE FILES TO THE ROOT OF THE GITHUB REPOSITORY:
+- index.html
+- manifest.json
+- service-worker.js
+- icons/icon-192.png
+- icons/icon-512.png
+
+Important:
+1. Do NOT upload the ZIP itself as index.html.
+2. GitHub Pages must serve the site over HTTPS.
+3. After committing, wait for GitHub Pages to deploy.
+4. On Android Chrome, clear site data for nhatd11892.github.io/pte-30 and reopen the URL before testing installation, so the old manifest/service worker is not reused.
+5. Chrome controls whether the native install menu is shown; the app cannot force that menu with JavaScript.
