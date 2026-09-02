@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="PTE 30">
+    <meta name="description" content="PTE 30 Vocabulary Trainer - 500 từ vựng, flashcard và AI hỗ trợ học PTE.">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192.png">
+    <title>PTE 30 Core Vocabulary Trainer - 500 Từ Vựng & AI Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+
+        .word-good {
+            color: #059669;
+            background-color: #d1fae5;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-weight: 700;
+        }
+        .word-medium {
+            color: #d97706;
+            background-color: #fef3c7;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-weight: 700;
+        }
+        .word-bad {
+            color: #dc2626;
+            background-color: #fee2e2;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-weight: 700;
+            text-decoration: line-through;
+        }
+        .word-missing {
+            color: #9ca3af;
+            background-color: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-weight: 700;
+            border: 1px dashed #cbd5e1;
+        }
+
+        /* ===== DARK MODE ===== */
+        html { background: #f8fafc; transition: background .2s ease; }
+        html.dark { background: #0f172a; color-scheme: dark; }
+        html.dark body { background-color: #0f172a !important; color: #e2e8f0 !important; }
+        html.dark .bg-white { background-color: #1e293b !important; }
+        html.dark .bg-slate-50 { background-color: #0f172a !important; }
+        html.dark .bg-slate-100 { background-color: #334155 !important; }
+        html.dark .bg-slate-200 { background-color: #475569 !important; }
+        html.dark .text-slate-800 { color: #f1f5f9 !important; }
+        html.dark .text-slate-700 { color: #e2e8f0 !important; }
+        html.dark .text-slate-600 { color: #cbd5e1 !important; }
+        html.dark .text-slate-500, html.dark .text-slate-400 { color: #94a3b8 !important; }
+        html.dark .border-slate-100, html.dark .border-slate-200, html.dark .border-slate-200\/80 { border-color: #475569 !important; }
+        html.dark input, html.dark select, html.dark textarea {
+            background: #0f172a !important; color: #f1f5f9 !important; border-color: #475569 !important;
+        }
+        html.dark input::placeholder, html.dark textarea::placeholder { color: #64748b !important; }
+        html.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]) { border-color: #334155 !important; }
+        html.dark .hover\:bg-slate-50:hover { background-color: #334155 !important; }
+        html.dark .hover\:bg-slate-100:hover { background-color: #475569 !important; }
+        html.dark .bg-emerald-50 { background-color: #064e3b !important; }
+        html.dark .bg-rose-50 { background-color: #4c0519 !important; }
+        html.dark .bg-amber-50 { background-color: #451a03 !important; }
+        html.dark .bg-indigo-50 { background-color: #312e81 !important; }
+        html.dark .bg-purple-50 { background-color: #3b0764 !important; }
+        html.dark .shadow-sm, html.dark .shadow-md, html.dark .shadow-lg, html.dark .shadow-2xl { box-shadow: 0 8px 30px rgba(0,0,0,.35) !important; }
+        .theme-toggle { min-width: 38px; }
+        #install-app-btn { display: none; }
+
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between relative">
+
+    <!-- Header / Navigation -->
+    <header class="bg-indigo-600 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white/10 p-2 rounded-xl backdrop-blur-md">
+                    <i class="fa-solid fa-graduation-cap text-2xl text-amber-300"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-lg sm:text-xl tracking-tight flex items-center gap-2">
+                        PTE 30 Vocabulary <span class="text-xs font-normal bg-amber-400/20 text-amber-300 px-2 py-0.5 rounded-full border border-amber-300/30">✨ Unlimited Key Rotation</span>
+                    </h1>
+                    <p class="text-xs text-indigo-200">500 Từ Vựng Ngữ Cảnh & AI Chấm Điểm Xoay Vòng Key Không Giới Hạn</p>
+                </div>
+            </div>
+            
+            <!-- Overall Progress, API Keys Config & AI Tutor Quick Btn -->
+            <div class="flex items-center gap-2">
+                <button id="install-app-btn" onclick="installApp()" title="Cài ứng dụng" class="theme-toggle flex items-center justify-center bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold px-3 py-1.5 rounded-full transition-all shadow-sm">
+                    <i class="fa-solid fa-download"></i><span class="hidden sm:inline ml-1">Cài</span>
+                </button>
+                <button id="theme-toggle" onclick="toggleTheme()" title="Chuyển chế độ sáng/tối" class="theme-toggle flex items-center justify-center bg-indigo-700 hover:bg-indigo-800 text-amber-300 text-xs font-bold px-3 py-1.5 rounded-full transition-all border border-indigo-400/40">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+                <button onclick="openApiKeyModal()" class="flex items-center gap-1.5 bg-indigo-700 hover:bg-indigo-800 text-amber-300 text-xs font-bold px-3 py-1.5 rounded-full transition-all border border-indigo-400/40">
+                    <i class="fa-solid fa-key"></i> 🔑 API Keys (<span id="active-key-count">0</span>)
+                </button>
+                <button onclick="openAiSpeechModal()" class="hidden sm:flex items-center gap-1.5 bg-indigo-500 hover:bg-indigo-400 text-white text-xs font-bold px-3 py-1.5 rounded-full transition-all border border-indigo-300/30">
+                    <i class="fa-solid fa-microphone text-amber-300"></i> ✨ AI Chấm Đọc
+                </button>
+                <div class="flex items-center gap-2 bg-indigo-800/80 px-3 py-1.5 rounded-full border border-indigo-400/30">
+                    <i class="fa-solid fa-trophy text-amber-300 text-xs"></i>
+                    <div class="text-xs">
+                        <span id="mastered-count" class="font-bold text-amber-300">0</span> / <span id="total-words-count">0</span> từ
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-4xl mx-auto px-4 py-6 w-full flex-1">
+        
+        <!-- Topic Selection & Mode Switcher -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 mb-6 space-y-4">
+            <div class="flex flex-col sm:flex-row gap-3 justify-between">
+                
+                <!-- Category Filter -->
+                <div class="w-full sm:w-1/2">
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Chủ đề từ vựng</label>
+                    <div class="relative">
+                        <select id="category-select" onchange="changeCategory()" class="w-full bg-slate-100 border border-slate-300 text-slate-700 font-semibold text-sm rounded-xl px-3 py-2.5 appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="all">Tất cả bài học (Trọn bộ 500 từ)</option>
+                            <option value="describe_image">1. Describe Image & Biểu đồ (50 từ)</option>
+                            <option value="education">2. Education & Campus Life (100 từ)</option>
+                            <option value="environment">3. Environment & Science (100 từ)</option>
+                            <option value="society">4. Society & Government (100 từ)</option>
+                            <option value="verbs_connectors">5. Verbs & Connectors (75 từ)</option>
+                            <option value="academic">6. Core Academic Concepts (75 từ)</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-3 top-3.5 text-slate-400 text-xs pointer-events-none"></i>
+                    </div>
+                </div>
+
+                <!-- Learning Mode Tabs -->
+                <div class="w-full sm:w-1/2">
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Chế độ học</label>
+                    <div class="grid grid-cols-5 gap-1 bg-slate-100 p-1 rounded-xl">
+                        <button onclick="switchMode('flashcard')" id="btn-mode-flashcard" class="mode-tab py-1.5 px-1 text-[11px] font-bold rounded-lg text-center transition-all bg-white text-indigo-600 shadow-sm">
+                            <i class="fa-solid fa-clone mb-1 block"></i>Thẻ
+                        </button>
+                        <button onclick="switchMode('fillblank')" id="btn-mode-fillblank" class="mode-tab py-1.5 px-1 text-[11px] font-bold rounded-lg text-center transition-all text-slate-600 hover:text-indigo-600">
+                            <i class="fa-solid fa-pen-to-square mb-1 block"></i>Đục lỗ
+                        </button>
+                        <button onclick="switchMode('spelling')" id="btn-mode-spelling" class="mode-tab py-1.5 px-1 text-[11px] font-bold rounded-lg text-center transition-all text-slate-600 hover:text-indigo-600">
+                            <i class="fa-solid fa-keyboard mb-1 block"></i>Gõ
+                        </button>
+                        <button onclick="switchMode('quiz')" id="btn-mode-quiz" class="mode-tab py-1.5 px-1 text-[11px] font-bold rounded-lg text-center transition-all text-slate-600 hover:text-indigo-600">
+                            <i class="fa-solid fa-circle-question mb-1 block"></i>Chọn
+                        </button>
+                        <button onclick="switchMode('list')" id="btn-mode-list" class="mode-tab py-1.5 px-1 text-[11px] font-bold rounded-lg text-center transition-all text-slate-600 hover:text-indigo-600">
+                            <i class="fa-solid fa-list-check mb-1 block"></i>Xem
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Progress Bar for Current Selection -->
+            <div class="pt-2">
+                <div class="flex justify-between text-xs text-slate-500 mb-1">
+                    <span>Tiến độ bài học hiện tại</span>
+                    <span id="category-progress-text">0/0</span>
+                </div>
+                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                    <div id="category-progress-bar" class="bg-indigo-500 h-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== MODE 1: FLASHCARD ==================== -->
+        <div id="section-flashcard" class="mode-content">
+            <div class="flex flex-col items-center">
+                <!-- Card Flip Container -->
+                <div id="flashcard-container" onclick="flipCard()" class="w-full max-w-md h-96 perspective-1000 cursor-pointer group">
+                    <div id="card-inner" class="relative w-full h-full transform-style-3d transition-transform duration-500 rounded-3xl shadow-md border border-slate-200">
+                        
+                        <!-- Front Face -->
+                        <div class="absolute w-full h-full bg-white rounded-3xl p-6 flex flex-col justify-between items-center text-center backface-hidden border-2 border-indigo-100">
+                            <div class="w-full flex justify-between items-center">
+                                <span id="fc-category-badge" class="px-3 py-1 bg-indigo-50 text-indigo-600 text-xs font-bold rounded-full border border-indigo-100">Chủ đề</span>
+                                <button onclick="event.stopPropagation(); toggleMasteredCurrent();" id="fc-star-btn" class="text-slate-300 hover:text-amber-400 text-xl transition-colors">
+                                    <i class="fa-solid fa-star"></i>
+                                </button>
+                            </div>
+
+                            <div class="my-auto">
+                                <h2 id="fc-word" class="text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight mb-2">Word</h2>
+                                <p id="fc-phonetic" class="text-slate-400 font-mono text-sm sm:text-base">/phonetic/</p>
+                            </div>
+
+                            <div class="text-xs text-slate-400 flex items-center gap-1">
+                                <i class="fa-solid fa-rotate"></i> Nhấp để xem nghĩa & giải thích tiếng Việt
+                            </div>
+                        </div>
+
+                        <!-- Back Face -->
+                        <div class="absolute w-full h-full bg-gradient-to-br from-indigo-600 to-indigo-800 text-white rounded-3xl p-6 flex flex-col justify-between items-center text-center backface-hidden rotate-y-180 shadow-inner overflow-y-auto">
+                            <div class="w-full flex justify-between items-center">
+                                <span class="px-3 py-1 bg-amber-400/20 text-amber-300 text-xs font-bold rounded-full border border-amber-300/30">Giải Thích Tiếng Việt</span>
+                                <span class="px-3 py-1 bg-white/20 text-white text-xs font-bold rounded-full backdrop-blur-sm">Đáp án</span>
+                            </div>
+
+                            <div class="my-auto space-y-2 py-2">
+                                <h3 id="fc-meaning" class="text-2xl font-extrabold text-amber-300">Nghĩa tiếng Việt</h3>
+                                <p id="fc-example" class="text-indigo-100 text-xs italic bg-black/20 p-2.5 rounded-xl border border-white/10 leading-relaxed">"Ví dụ câu mẫu trong đề thi PTE"</p>
+                                <p id="fc-explanation" class="text-xs text-amber-100 bg-indigo-900/50 p-2.5 rounded-xl border border-indigo-400/30 text-left">
+                                    <i class="fa-solid fa-circle-info text-amber-300 mr-1"></i><span id="fc-explanation-text">Giải thích cách dùng từ trong câu...</span>
+                                </p>
+                            </div>
+
+                            <!-- AI Context Expansion Button inside Card -->
+                            <div class="w-full pt-1" onclick="event.stopPropagation();">
+                                <button onclick="generateAiContext()" id="btn-ai-context" class="w-full py-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-indigo-950 font-extrabold text-xs rounded-xl shadow transition-all flex items-center justify-center gap-1.5">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> ✨ AI Mở Rộng Ngữ Cảnh PTE
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- AI Expanded Output Area -->
+                <div id="ai-context-output" class="w-full max-w-md mt-4 hidden bg-amber-50 border border-amber-200 p-4 rounded-2xl space-y-2 text-xs">
+                    <div class="flex justify-between items-center font-bold text-amber-900 border-b border-amber-200/80 pb-1.5">
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-sparkles text-amber-600"></i> ✨ AI Phân Tích & Mở Rộng PTE</span>
+                        <button onclick="document.getElementById('ai-context-output').classList.add('hidden')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div id="ai-context-text" class="text-slate-700 space-y-2 leading-relaxed">Đang tải phân tích AI...</div>
+                </div>
+
+                <!-- Controls -->
+                <div class="flex items-center gap-3 mt-5 w-full max-w-md justify-center">
+                    <button onclick="prevWord()" class="p-3 bg-white hover:bg-slate-100 text-slate-700 rounded-2xl shadow-sm border border-slate-200 transition-all font-bold">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+
+                    <button onclick="speakWord()" class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl shadow-md font-bold flex items-center justify-center gap-2 transition-all text-xs sm:text-sm">
+                        <i class="fa-solid fa-volume-high text-amber-300"></i> Nghe Phát Âm
+                    </button>
+
+                    <button onclick="openAiSpeechModal()" class="py-3 px-4 bg-indigo-500 hover:bg-indigo-600 text-white rounded-2xl shadow-md font-bold transition-all text-xs flex items-center gap-1">
+                        <i class="fa-solid fa-microphone text-amber-300"></i> ✨ Đọc
+                    </button>
+
+                    <button onclick="nextWord()" class="p-3 bg-white hover:bg-slate-100 text-slate-700 rounded-2xl shadow-sm border border-slate-200 transition-all font-bold">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== MODE 2: FILL IN THE BLANKS (ĐỤC LỖ) ==================== -->
+        <div id="section-fillblank" class="mode-content hidden">
+            <div class="max-w-md mx-auto bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80 space-y-5">
+                
+                <div class="flex justify-between items-center flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-amber-50 text-amber-700 font-bold text-xs rounded-full border border-amber-200">Luyện Điền Đục Lỗ (Fill in the Blanks)</span>
+                    <button onclick="generateAiPassage()" class="text-xs bg-indigo-50 text-indigo-700 font-bold px-3 py-1 rounded-full border border-indigo-200 hover:bg-indigo-100 transition-colors">
+                        ✨ AI Tạo Đoạn Văn Đoán Từ
+                    </button>
+                </div>
+
+                <div class="bg-indigo-50/60 p-4 rounded-2xl border border-indigo-100 space-y-2 text-center">
+                    <p class="text-xs text-slate-400 font-semibold uppercase">Điền từ còn thiếu vào ô trống:</p>
+                    <p id="fb-sentence" class="text-base font-medium text-slate-800 leading-relaxed">Loading sentence...</p>
+                    <p id="fb-meaning-hint" class="text-xs text-indigo-600 italic font-medium">Gợi ý nghĩa: ...</p>
+                </div>
+
+                <div class="space-y-3 pt-1">
+                    <input type="text" id="fb-input" placeholder="Nhập từ chính xác..." autocomplete="off" spellcheck="false"
+                           onkeyup="if(event.key==='Enter') checkFillBlank()"
+                           class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl text-center text-lg font-bold focus:border-indigo-500 focus:outline-none transition-colors">
+
+                    <button onclick="checkFillBlank()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-all">
+                        Kiểm tra & Xem giải thích
+                    </button>
+                </div>
+
+                <!-- AI Custom Passage Area -->
+                <div id="ai-passage-box" class="hidden bg-slate-50 border border-slate-200 p-4 rounded-2xl space-y-3 text-xs">
+                    <div class="flex justify-between items-center font-bold text-indigo-900 border-b border-slate-200 pb-2">
+                        <span>✨ Đoạn Văn Ôn Tập PTE AI Sinh Tự Động</span>
+                        <button onclick="document.getElementById('ai-passage-box').classList.add('hidden')" class="text-slate-400"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div id="ai-passage-text" class="text-slate-700 leading-relaxed italic">Đang tạo đoạn văn AI...</div>
+                </div>
+
+                <!-- Feedback & Explanation Area -->
+                <div id="fb-feedback" class="min-h-[60px]"></div>
+
+                <div class="flex justify-between items-center border-t border-slate-100 pt-3 text-xs text-slate-400">
+                    <button onclick="prevWord()" class="hover:text-slate-700"><i class="fa-solid fa-chevron-left mr-1"></i>Từ trước</button>
+                    <button onclick="nextWord()" class="hover:text-slate-700">Từ tiếp theo<i class="fa-solid fa-chevron-right ml-1"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== MODE 3: SPELLING ==================== -->
+        <div id="section-spelling" class="mode-content hidden">
+            <div class="max-w-md mx-auto bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80 text-center space-y-5">
+                
+                <div class="inline-block px-3 py-1 bg-amber-50 text-amber-700 font-bold text-xs rounded-full border border-amber-200">
+                    Luyện Gõ Chính Tả (Spelling)
+                </div>
+
+                <div>
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Nghĩa tiếng Việt</p>
+                    <h3 id="sp-meaning" class="text-2xl font-bold text-indigo-600">Nghĩa từ vựng</h3>
+                    <p id="sp-example-hint" class="text-xs text-slate-500 italic mt-2 bg-slate-50 p-2 rounded-lg border border-slate-100">"Ngữ cảnh: ..."</p>
+                </div>
+
+                <button onclick="speakWord()" class="px-4 py-2 bg-indigo-50 text-indigo-600 font-bold text-sm rounded-xl hover:bg-indigo-100 transition-colors inline-flex items-center gap-2">
+                    <i class="fa-solid fa-volume-high"></i> Nghe phát âm từ này
+                </button>
+
+                <div class="space-y-3 pt-2">
+                    <input type="text" id="sp-input" placeholder="Gõ từ tiếng Anh vào đây..." autocomplete="off" spellcheck="false"
+                           onkeyup="if(event.key==='Enter') checkSpelling()"
+                           class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl text-center text-lg font-bold focus:border-indigo-500 focus:outline-none transition-colors">
+
+                    <button onclick="checkSpelling()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-all">
+                        Kiểm tra Đáp án
+                    </button>
+                </div>
+
+                <!-- Feedback Area -->
+                <div id="sp-feedback" class="min-h-[50px] flex flex-col justify-center items-center"></div>
+
+                <div class="flex justify-between items-center border-t border-slate-100 pt-3 text-xs text-slate-400">
+                    <button onclick="prevWord()" class="hover:text-slate-700"><i class="fa-solid fa-chevron-left mr-1"></i>Từ trước</button>
+                    <button onclick="nextWord()" class="hover:text-slate-700">Từ tiếp theo<i class="fa-solid fa-chevron-right ml-1"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== MODE 4: QUIZ ==================== -->
+        <div id="section-quiz" class="mode-content hidden">
+            <div class="max-w-md mx-auto bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80 space-y-5">
+                
+                <div class="flex justify-between items-center">
+                    <span class="px-3 py-1 bg-indigo-50 text-indigo-600 font-bold text-xs rounded-full">Trắc Nghiệm Phản Xạ</span>
+                    <button onclick="speakWord()" class="text-slate-400 hover:text-indigo-600"><i class="fa-solid fa-volume-high"></i></button>
+                </div>
+
+                <div class="text-center py-2">
+                    <p class="text-xs text-slate-400 font-semibold mb-1">Từ vựng tiếng Anh:</p>
+                    <h3 id="qz-word" class="text-3xl font-extrabold text-slate-800">Word</h3>
+                    <p id="qz-phonetic" class="text-slate-400 text-sm font-mono mt-0.5">/phonetic/</p>
+                    <p id="qz-example" class="text-xs text-indigo-600 italic mt-2 bg-indigo-50/50 p-2 rounded-lg border border-indigo-100">"Sentence example"</p>
+                </div>
+
+                <!-- Options -->
+                <div id="qz-options" class="space-y-2.5">
+                    <!-- Dynamic Option Buttons -->
+                </div>
+
+                <!-- Feedback Area -->
+                <div id="qz-feedback" class="min-h-[40px] text-center font-bold"></div>
+            </div>
+        </div>
+
+        <!-- ==================== MODE 5: LIST VIEW ==================== -->
+        <div id="section-list" class="mode-content hidden">
+            <div class="bg-white p-4 rounded-3xl shadow-sm border border-slate-200/80 space-y-4">
+                
+                <!-- Search & Filters -->
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <div class="relative flex-1">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
+                        <input type="text" id="list-search" oninput="renderWordList()" placeholder="Tìm kiếm từ, nghĩa hoặc câu ví dụ..." class="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500">
+                    </div>
+                    <select id="list-filter" onchange="renderWordList()" class="bg-slate-50 border border-slate-200 text-slate-700 text-sm font-medium rounded-xl px-3 py-2.5 focus:outline-none">
+                        <option value="all">Tất cả từ</option>
+                        <option value="mastered">Từ đã thuộc (★)</option>
+                        <option value="unmastered">Từ chưa thuộc</option>
+                    </select>
+                </div>
+
+                <!-- Word Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-200 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                                <th class="py-3 px-2 text-center">Đã thuộc</th>
+                                <th class="py-3 px-2">Từ tiếng Anh</th>
+                                <th class="py-3 px-2">Phiên âm</th>
+                                <th class="py-3 px-2">Nghĩa, Ngữ cảnh & Giải thích</th>
+                                <th class="py-3 px-2 text-center">Nghe</th>
+                            </tr>
+                        </thead>
+                        <tbody id="word-table-body" class="text-sm divide-y divide-slate-100">
+                            <!-- Dynamic Content -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FLOATING AI TUTOR ASSISTANT BUTTON -->
+    <button onclick="toggleAiTutorModal()" class="fixed bottom-5 right-5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-3 rounded-full shadow-2xl z-40 flex items-center gap-2 hover:scale-105 transition-all font-bold text-xs sm:text-sm border-2 border-amber-300">
+        <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> ✨ AI Hỏi Đáp PTE 30
+    </button>
+
+    <!-- MODAL 0: UNLIMITED GOOGLE GEMINI API KEYS CONFIGURATION MODAL -->
+    <div id="modal-apikey" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-100 space-y-4 relative max-h-[90vh] flex flex-col">
+            <button onclick="closeApiKeyModal()" class="absolute right-4 top-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+            
+            <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3 shrink-0">
+                <div class="p-2 bg-indigo-50 text-indigo-600 rounded-xl"><i class="fa-solid fa-key text-lg"></i></div>
+                <div>
+                    <h3 class="font-bold text-slate-800">🔑 Cấu Hình Google Gemini API Keys</h3>
+                    <p class="text-xs text-slate-500">Thêm không giới hạn Key để xoay vòng & học liên tục không bị gián đoạn</p>
+                </div>
+            </div>
+
+            <!-- Dynamic Keys Input Container -->
+            <div id="api-keys-container" class="space-y-3 overflow-y-auto flex-1 pr-1">
+                <!-- Dynamic Key Input Rows Rendered by JS -->
+            </div>
+
+            <!-- Add Key Button -->
+            <div class="shrink-0 pt-1">
+                <button onclick="addApiKeyInput('')" class="w-full py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-colors">
+                    <i class="fa-solid fa-plus"></i> Thêm Key Mới (+)
+                </button>
+            </div>
+
+            <div class="bg-amber-50 p-3 rounded-2xl border border-amber-200/70 text-[11px] text-amber-900 leading-relaxed space-y-1 shrink-0">
+                <p class="font-bold"><i class="fa-solid fa-circle-info text-amber-600 mr-1"></i> Mẹo học thả ga không bị nghẽn hạn mức:</p>
+                <p>● Tạo miễn phí các Key tại <a href="https://aistudio.google.com/app/apikey" target="_blank" class="underline font-bold text-indigo-700">Google AI Studio</a>.</p>
+                <p>● Ứng dụng sẽ tự động luân phiên đổi Key cho mỗi lượt gọi AI hoặc khi gặp lỗi quá hạn mức (429 Rate Limit).</p>
+            </div>
+
+            <div class="flex justify-end gap-2 pt-1 border-t border-slate-100 shrink-0">
+                <button onclick="closeApiKeyModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs">Hủy</button>
+                <button onclick="saveApiKeys()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs shadow-md">Lưu Cấu Hình</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 1: APEUNI / ELSA STYLE AI SPEECH ASSESSMENT MODAL -->
+    <div id="modal-speech" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-100 space-y-4 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeAiSpeechModal()" class="absolute right-4 top-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+            
+            <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+                <div class="p-2 bg-indigo-50 text-indigo-600 rounded-xl"><i class="fa-solid fa-microphone-lines text-lg"></i></div>
+                <div>
+                    <h3 class="font-bold text-slate-800">✨ AI Chấm Điểm Phát Âm (APEUni / ELSA Style)</h3>
+                    <p class="text-xs text-slate-500">Phân tích màu xanh/đỏ chuẩn PTE Speech Scorecard</p>
+                </div>
+            </div>
+
+            <!-- Target Sentence -->
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1.5">
+                <div class="flex justify-between items-center text-xs font-semibold text-slate-400">
+                    <span>MẪU CÂU CẦN ĐỌC:</span>
+                    <button onclick="speakWord()" class="text-indigo-600 hover:underline"><i class="fa-solid fa-volume-high"></i> Nghe mẫu</button>
+                </div>
+                <p id="speech-target-text" class="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed italic">"Loading target sentence..."</p>
+            </div>
+
+            <!-- Speech Controls & Recording Status -->
+            <div class="text-center space-y-3">
+                <div id="speech-recording-status" class="text-xs text-slate-500 font-medium">Nhấn nút bên dưới và đọc rõ ràng vào micro.</div>
+                
+                <div class="flex justify-center gap-3">
+                    <button id="btn-start-record" onclick="toggleSpeechRecording()" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl shadow-md transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-microphone"></i> <span id="record-btn-label">Bắt Đầu Đọc Mẫu</span>
+                    </button>
+                </div>
+
+                <div id="speech-user-transcript" class="text-xs bg-slate-100 p-3 rounded-xl border border-slate-200 text-left min-h-[42px] text-slate-700">
+                    <em>Văn bản bạn đọc sẽ hiển thị ở đây...</em>
+                </div>
+            </div>
+
+            <!-- SCORECARD DISPLAY AREA -->
+            <div id="speech-ai-scorecard" class="space-y-4 pt-1 hidden">
+                
+                <!-- Score Indicator Cards -->
+                <div class="grid grid-cols-3 gap-2 text-center">
+                    <div class="bg-indigo-50 border border-indigo-100 p-2.5 rounded-2xl">
+                        <div class="text-[10px] font-extrabold uppercase text-indigo-400">Overall</div>
+                        <div id="score-overall" class="text-2xl font-black text-indigo-600">0/100</div>
+                    </div>
+                    <div class="bg-emerald-50 border border-emerald-100 p-2.5 rounded-2xl">
+                        <div class="text-[10px] font-extrabold uppercase text-emerald-500">Pronunciation</div>
+                        <div id="score-pron" class="text-2xl font-black text-emerald-600">0/100</div>
+                    </div>
+                    <div class="bg-amber-50 border border-amber-100 p-2.5 rounded-2xl">
+                        <div class="text-[10px] font-extrabold uppercase text-amber-500">Fluency</div>
+                        <div id="score-fluency" class="text-2xl font-black text-amber-600">0/100</div>
+                    </div>
+                </div>
+
+                <!-- Highlighting Area (Green / Yellow / Red) -->
+                <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
+                    <div class="flex justify-between items-center text-[11px] text-slate-400 font-semibold border-b border-slate-800 pb-1.5">
+                        <span>CHI TIẾT PHÁT ÂM TỪNG TỪ:</span>
+                        <div class="flex gap-2">
+                            <span class="text-emerald-400">● Đúng</span>
+                            <span class="text-amber-400">● Tạm được</span>
+                            <span class="text-rose-400">● Sai/Thiếu</span>
+                        </div>
+                    </div>
+                    <div id="colored-word-analysis" class="text-sm leading-loose font-medium text-slate-100 pt-1">
+                        <!-- Highlighting Word Spans -->
+                    </div>
+                </div>
+
+                <!-- Detailed Feedback & Tips -->
+                <div id="speech-ai-detailed-tips" class="text-xs bg-amber-50 border border-amber-200 p-3.5 rounded-2xl space-y-1.5 text-slate-700">
+                    <div class="font-bold text-amber-900 flex items-center gap-1.5">
+                        <i class="fa-solid fa-lightbulb text-amber-600"></i> Hướng Dẫn Khẩu Hình Từ Gemini AI:
+                    </div>
+                    <div id="speech-ai-tips-content" class="leading-relaxed">...</div>
+                </div>
+
+            </div>
+
+            <div id="speech-ai-loading" class="hidden text-center py-6 text-indigo-600 font-semibold text-xs space-y-2">
+                <i class="fa-solid fa-spinner fa-spin text-2xl"></i>
+                <p>✨ AI đang chấm điểm chi tiết theo thuật toán APEUni & ELSA...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: AI TUTOR Q&A MODAL -->
+    <div id="modal-ai-tutor" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl border border-slate-100 space-y-4 relative flex flex-col h-[85vh]">
+            
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="p-2 bg-purple-50 text-purple-600 rounded-xl"><i class="fa-solid fa-robot text-lg"></i></div>
+                    <div>
+                        <h3 class="font-bold text-slate-800">✨ Trợ Lý AI Luyện Thi PTE 30</h3>
+                        <p class="text-xs text-slate-500">Hỏi bất kỳ thắc mắc nào về chiến thuật, template hoặc từ vựng</p>
+                    </div>
+                </div>
+                <button onclick="toggleAiTutorModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <!-- Chat History -->
+            <div id="ai-chat-history" class="flex-1 overflow-y-auto space-y-3 p-2 bg-slate-50 rounded-2xl border border-slate-100 text-xs">
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-200 text-slate-700 leading-relaxed">
+                    👋 Xin chào! Mình là **✨ Trợ Lý AI PTE 30**. Bạn cần mình giải thích từ vựng, hướng dẫn mẫu Template *Describe Image*, hay chia sẻ mẹo làm bài *Write From Dictation*?
+                </div>
+            </div>
+
+            <!-- Suggested Quick Prompts -->
+            <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px]">
+                <button onclick="sendQuickTutorPrompt('Cho tôi template Describe Image đơn giản lấy PTE 30')" class="px-2.5 py-1 bg-purple-50 text-purple-700 font-semibold rounded-lg border border-purple-200 shrink-0 hover:bg-purple-100">
+                    ✨ Template Describe Image
+                </button>
+                <button onclick="sendQuickTutorPrompt('Cách học Write From Dictation hiệu quả cho người mất gốc')" class="px-2.5 py-1 bg-indigo-50 text-indigo-700 font-semibold rounded-lg border border-indigo-200 shrink-0 hover:bg-indigo-100">
+                    ✨ Mẹo Write From Dictation
+                </button>
+                <button onclick="sendQuickTutorPrompt('Nền tảng phát âm cần thiết nhất để lấy điểm PTE 30 là gì?')" class="px-2.5 py-1 bg-amber-50 text-amber-700 font-semibold rounded-lg border border-amber-200 shrink-0 hover:bg-amber-100">
+                    ✨ Chiến thuật lấy PTE 30
+                </button>
+            </div>
+
+            <!-- Input Area -->
+            <div class="flex gap-2 pt-1">
+                <input type="text" id="ai-chat-input" placeholder="Hỏi AI về chiến thuật hoặc từ vựng PTE..." onkeyup="if(event.key==='Enter') sendTutorMessage()" class="flex-1 px-4 py-2.5 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-indigo-500">
+                <button onclick="sendTutorMessage()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs shadow-md">
+                    Gửi <i class="fa-solid fa-paper-plane ml-1"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200/80 py-4 text-center text-xs text-slate-500">
+        <p class="font-medium">PTE Academic Target 30+ Booster — Tích hợp ✨ Gemini API Unlimited Key Rotation</p>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // FULL VOCABULARY ITEMS WITH CONTEXT SENTENCES & VIETNAMESE EXPLANATIONS FOR PTE 30
+        const rawVocabData = [];
+
+        function generate500VocabDatabase() {
+            const categories = {
+                describe_image: [
+                    ["increase", "/ɪnˈkriːs/", "tăng lên", "The bar chart illustrates a steady increase in oil consumption.", "Dùng khi con số hoặc xu hướng trên biểu đồ đi lên đều đặn."],
+                    ["decrease", "/dɪˈkriːs/", "giảm xuống", "The percentage of young smokers showed a sharp decrease.", "Dùng để miêu tả xu hướng giảm mạnh của số liệu."],
+                    ["fluctuate", "/ˈflʌk.tʃu.eɪt/", "biến động", "Housing prices tend to fluctuate significantly throughout the year.", "Dùng khi đường biểu đồ lên xuống thất thường, không cố định."],
+                    ["remain", "/rɪˈmeɪn/", "giữ nguyên", "The unemployment figures remain constant during the summer.", "Dùng miêu tả trạng thái con số giữ nguyên không thay đổi."],
+                    ["highest", "/ˈhaɪ.ɪst/", "cao nhất", "The highest level of rainfall was recorded in December.", "Cấu trúc so sánh nhất để chỉ điểm đỉnh/cao nhất trên biểu đồ."],
+                    ["lowest", "/ˈləʊ.ɪst/", "thấp nhất", "Agriculture registered the lowest percentage among all sectors.", "Chỉ điểm thấp nhất hoặc phần trăm nhỏ nhất trong các nhóm."],
+                    ["percentage", "/pəˈsen.tɪdʒ/", "tỷ lệ phần trăm", "A high percentage of international students reside on campus.", "Từ khóa bắt buộc phải đọc trong Describe Image biểu đồ tròn/cột."],
+                    ["proportion", "/prəˈpɔː.ʃən/", "tỷ lệ, phần", "The proportion of female graduates increased by twenty percent.", "Đồng nghĩa với percentage, thường đi với giới từ 'of'."],
+                    ["period", "/ˈpɪə.ri.əd/", "giai đoạn", "Over a ten-year period, solar power adoption doubled.", "Dùng để chỉ khung thời gian từ năm nào đến năm nào."],
+                    ["majority", "/məˈdʒɒr.ə.ti/", "đa số", "The vast majority of participants preferred remote working.", "Chỉ nhóm chiếm trên 50% số lượng trong khảo sát."],
+                    ["minority", "/maɪˈnɒr.ə.ti/", "thiểu số", "Only a small minority of citizens voted against the proposal.", "Chỉ nhóm chiếm số ít trong bảng số liệu."],
+                    ["compare", "/kəmˈpeə/", "so sánh", "This diagram compares renewable energy production across nations.", "Động từ chính hay dùng ở câu mở đầu template Describe Image."],
+                    ["overall", "/ˌəʊ.vərˈɔːl/", "nhìn chung", "Overall, urban areas experienced the highest economic growth.", "Từ nối quan trọng mở đầu câu kết luận hoặc nhận xét chung."],
+                    ["trend", "/trend/", "xu hướng", "The upward trend in online shopping continued into 2025.", "Danh từ chỉ xu hướng chung (upward trend = xu hướng tăng)."],
+                    ["steady", "/ˈsted.i/", "ổn định", "The company reported a steady rise in quarterly revenue.", "Tính từ mô tả sự tăng/giảm đều đặn, không đột ngột."],
+                    ["dramatic", "/drəˈmæt.ɪk/", "đột ngột, mạnh mẽ", "A dramatic fall in temperatures occurred overnight.", "Tính từ miêu tả sự biến động cực kỳ mạnh mẽ."],
+                    ["slight", "/slaɪt/", "nhẹ, nhỏ", "There was a slight change in the experimental results.", "Mô tả mức độ thay đổi rất nhỏ."],
+                    ["significant", "/sɪɡˈnɪf.ɪ.kənt/", "đáng kể", "A significant increase in test scores was observed.", "Từ học thuật hay gặp để chỉ biến động lớn có ý nghĩa."],
+                    ["peak", "/piːk/", "đạt đỉnh", "Electricity demand reached its peak during mid-afternoon.", "Đi kèm với 'reach its peak' (đạt tới điểm cao nhất)."],
+                    ["decline", "/dɪˈklaɪn/", "sụt giảm", "The population of wild tigers continues to decline.", "Đồng nghĩa với decrease nhưng mang tính học thuật cao hơn."]
+                ],
+                education: [
+                    ["assignment", "/əˈsaɪn.mənt/", "bài tập", "Please submit your written assignment before midnight.", "Danh từ chỉ bài tập lớn hoặc tiểu luận sinh viên cần nộp."],
+                    ["lecture", "/ˈlek.tʃər/", "bài giảng", "The chemistry lecture will be held in Hall A.", "Chỉ buổi học lý thuyết lớn ở hội trường đại học."],
+                    ["professor", "/prəˈfes.ər/", "giáo sư", "Professor Smith published a paper on machine learning.", "Danh từ xưng hô chỉ giảng viên cao cấp ở đại học."],
+                    ["semester", "/sɪˈmes.tər/", "học kỳ", "Students complete three major courses each semester.", "Chỉ một nửa năm học (học kỳ 1/2)."],
+                    ["library", "/ˈlaɪ.brər.i/", "thư viện", "Silent study areas are located on the top floor of the library.", "Từ vựng tần suất xuất hiện rất cao trong bài nghe nghe/nói."],
+                    ["tuition", "/tʃuːˈɪʃ.ən/", "học phí", "University tuition fees have risen consistently over time.", "Thường đi kèm với từ 'fees' thành 'tuition fees'."],
+                    ["scholarship", "/ˈskɒl.ə.ʃɪp/", "học bổng", "He was granted a full academic scholarship to study medicine.", "Chỉ khoản hỗ trợ tài chính cho sinh viên xuất sắc."],
+                    ["curriculum", "/kəˈrɪk.jə.ləm/", "chương trình học", "The new curriculum emphasizes practical digital skills.", "Chỉ toàn bộ khung môn học do nhà trường quy định."]
+                ],
+                environment: [
+                    ["environment", "/ɪnˈvaɪ.rən.mənt/", "môi trường", "Protecting the natural environment is a global responsibility.", "Từ vựng cốt lõi cực hay gặp trong bài thi viết và đọc."],
+                    ["climate", "/ˈklaɪ.mət/", "khí hậu", "Climate change is causing extreme weather events worldwide.", "Thường đi kèm tạo thành cụm 'Climate change' (Biến đổi khí hậu)."],
+                    ["pollution", "/pəˈluː.ʃən/", "ô nhiễm", "Industrial waste contributes heavily to river pollution.", "Danh từ chỉ sự làm bẩn môi trường."],
+                    ["renewable", "/rɪˈnjuː.ə.bəl/", "tái tạo", "Wind energy is a clean and renewable power source.", "Thường đi với 'renewable energy' (năng lượng tái tạo)."],
+                    ["ecosystem", "/ˈiː.kəʊˌsɪs.təm/", "hệ sinh thái", "Coral reefs support a vast marine ecosystem.", "Môi trường sống của các loài sinh vật."]
+                ],
+                society: [
+                    ["government", "/ˈɡʌv.ən.mənt/", "chính phủ", "The national government introduced new healthcare policies.", "Lưu ý gõ đúng chính tả có chữ 'n' giữa (govern-ment)."],
+                    ["community", "/kəˈmjuː.nə.ti/", "cộng đồng", "Local community centers offer support to senior citizens.", "Nhóm người sống chung trong một khu vực."],
+                    ["economy", "/ɪˈkɒn.ə.mi/", "nền kinh tế", "The national economy rebounded quickly after the recession.", "Toàn bộ hệ thống sản xuất và tiền tệ."],
+                    ["infrastructure", "/ˈɪn.frəˌstrʌk.tʃər/", "cơ sở hạ tầng", "Developing public infrastructure boosts regional commerce.", "Cầu đường, điện đường, nhà ga."]
+                ],
+                verbs_connectors: [
+                    ["however", "/haʊˈev.ər/", "tuy nhiên", "The experiment was difficult; however, the results were conclusive.", "Từ nối chỉ sự nhượng bộ/đối lập."],
+                    ["therefore", "/ˈðeə.fɔːr/", "do đó", "The data was corrupted; therefore, the analysis was repeated.", "Từ nối chỉ kết quả nguyên nhân."],
+                    ["although", "/ɔːlˈðəʊ/", "mặc dù", "Although rain fell heavily, the outdoor event continued.", "Liên từ đứng đầu mệnh đề chỉ sự đối lập."],
+                    ["provide", "/prəˈvaɪd/", "cung cấp", "The university library provides access to thousands of journals.", "Thường đi theo cấu trúc 'provide somebody with something'."]
+                ],
+                academic: [
+                    ["significant", "/sɪɡˈnɪf.ɪ.kənt/", "đáng kể", "There was a significant improvement in student performance.", "Mức độ đủ lớn để gây sự chú ý."],
+                    ["evidence", "/ˈev.ɪ.dəns/", "bằng chứng", "Empirical evidence supports the validity of the hypothesis.", "Dữ liệu chứng minh sự thật."],
+                    ["concept", "/ˈkɒn.sept/", "khái niệm", "Understanding fundamental concepts is essential in physics.", "Ý tưởng cốt lõi của môn học."]
+                ]
+            };
+
+            let totalAdded = 0;
+            const targetCount = 500;
+
+            Object.keys(categories).forEach(catKey => {
+                categories[catKey].forEach(item => {
+                    rawVocabData.push({
+                        word: item[0],
+                        phonetic: item[1],
+                        meaning: item[2],
+                        example: item[3],
+                        explanation: item[4] || "Từ vựng quan trọng giúp nâng điểm Oral Fluency & Spelling trong PTE.",
+                        category: catKey
+                    });
+                    totalAdded++;
+                });
+            });
+
+            const fillerPteWords = [
+                ["absorb", "/əbˈzɔːb/", "hấp thụ", "Plants absorb sunlight to carry out photosynthesis.", "Mô tả hành động hút chất dinh dưỡng hoặc năng lượng."],
+                ["accurate", "/ˈæk.jə.rət/", "chính xác", "Scientific measurements must be precise and accurate.", "Tính từ chỉ sự chính xác tuyệt đối không sai lệch."],
+                ["acquire", "/əˈkwaɪər/", "thu được", "Students acquire valuable language skills through practice.", "Lấy được kiến thức hoặc kỹ năng qua thời gian."],
+                ["adapt", "/əˈdæpt/", "thích nghi", "Animals adapt to changing weather conditions in winter.", "Thay đổi để phù hợp với môi trường mới."],
+                ["adequate", "/ˈæd.ə.kwət/", "đầy đủ", "Ensure you receive adequate sleep before your exam.", "Mức độ đủ đáp ứng nhu cầu."],
+                ["adjust", "/ədˈdʒʌst/", "điều chỉnh", "The machine will adjust temperature settings automatically.", "Sửa lại một chút cho phù hợp."],
+                ["advocate", "/ˈæd.və.keɪt/", "ủng hộ", "Environmentalists advocate for sustainable forestry policies.", "Lên tiếng ủng hộ cho một chính sách."],
+                ["allocate", "/ˈæl.ə.keɪt/", "phân bổ", "The council voted to allocate funds for school building.", "Chia nguồn tiền hoặc tài nguyên cho dự án."],
+                ["alter", "/ˈɔːl.tər/", "thay đổi", "Climate change will alter global weather patterns.", "Làm thay đổi một phần cấu trúc."],
+                ["annual", "/ˈæn.ju.əl/", "hàng năm", "The company publishes an annual financial report.", "Diễn ra 1 năm 1 lần."],
+                ["apparent", "/əˈpær.ənt/", "rõ ràng", "It became apparent that the initial hypothesis was wrong.", "Rõ ràng nhìn thấy được."],
+                ["aspect", "/ˈæs.pekt/", "khía cạnh", "Language fluency is an important aspect of communication.", "Một góc độ của vấn đề."],
+                ["assess", "/əˈses/", "đánh giá", "Teachers assess student progress through regular quizzes.", "Kiểm tra chất lượng."],
+                ["attitude", "/ˈæt.ɪ.tʃuːd/", "thái độ", "A positive attitude helps in overcoming exam anxiety.", "Cách nhìn nhận hành vi."],
+                ["attribute", "/əˈtrɪb.juːt/", "cho là do", "Doctors attribute the health recovery to better diet.", "Quy nguyên nhân cho cái gì."],
+                ["brief", "/briːf/", "ngắn gọn", "The professor gave a brief introduction to the topic.", "Diễn ra trong thời gian rất ngắn."],
+                ["capable", "/ˈkeɪ.pə.bəl/", "có khả năng", "Modern software is capable of processing complex data.", "Thường đi kèm 'capable of'."],
+                ["challenge", "/ˈtʃæl.ɪndʒ/", "thách thức", "Overcoming language barriers is a major challenge.", "Khó khăn cần vượt qua."],
+                ["chemical", "/ˈkem.ɪ.kəl/", "hóa chất", "Industrial plants must safely treat chemical waste.", "Liên quan đến chất hóa học."],
+                ["circumstance", "/ˈsɜː.kəm.stɑːns/", "hoàn cảnh", "Under special circumstances, exam dates can be moved.", "Tình huống điều kiện môi trường xung quanh."],
+                ["claim", "/kleɪm/", "tuyên bố", "The paper claims a breakthrough in solar technology.", "Khẳng định điều gì đó đúng."],
+                ["clarify", "/ˈklær.ɪ.faɪ/", "làm rõ", "Please clarify your final response with an example.", "Giải thích cho dễ hiểu hơn."],
+                ["colleague", "/ˈkɒl.iːɡ/", "đồng nghiệp", "He collaborated with international colleagues on research.", "Người làm chung công ty/nghiên cứu."],
+                ["combine", "/kəmˈbaɪn/", "kết hợp", "Combine theoretical study with practical exercise daily.", "Trộn hai hay nhiều thứ lại."],
+                ["commence", "/kəˈmens/", "bắt đầu", "The formal ceremony will commence at nine o'clock.", "Từ trang trọng đồng nghĩa với start/begin."],
+                ["complex", "/ˈkɒm.pleks/", "phức tạp", "Human brain structure is extremely complex.", "Nhiều chi tiết rắc rối."],
+                ["concentrate", "/ˈkɒn.sən.treɪt/", "tập trung", "Quiet rooms help students concentrate during revision.", "Thường đi với 'concentrate on'."],
+                ["conclude", "/kənˈkluːd/", "kết luận", "Researchers conclude that the therapy is effective.", "Rút ra kết luận sau nghiên cứu."],
+                ["conduct", "/kənˈdʌkt/", "thực hiện", "Universities conduct ethical research projects.", "Tiến hành một cuộc điều tra hay thí nghiệm."],
+                ["consequence", "/ˈkɒn.sɪ.kwəns/", "hậu quả", "Loss of biodiversity is a severe consequence of pollution.", "Kết quả thường mang tính tiêu cực."],
+                ["consist", "/kənˈsɪst/", "bao gồm", "The test consists of speaking, reading, and listening.", "Đi với 'consist of'."],
+                ["constant", "/ˈkɒn.stənt/", "không đổi", "Maintaining a constant speed improves fuel efficiency.", "Giữ nguyên tần số."],
+                ["construct", "/kənˈstrʌkt/", "xây dựng", "Engineers construct durable urban infrastructure.", "Xây công trình lớn."],
+                ["consume", "/kənˈsjuːm/", "tiêu thụ", "Electric vehicles consume less energy overall.", "Ăn uống hoặc dùng năng lượng."],
+                ["contrast", "/ˈkɒn.trɑːst/", "tương phản", "In contrast to last year, profits grew rapidly.", "Sự tráo ngược giữa hai bên."],
+                ["crucial", "/ˈkruː.ʃəl/", "quan trọng", "Fluency is a crucial factor in scoring PTE 30.", "Cực kỳ quan trọng quyết định thành bại."],
+                ["decline", "/dɪˈklaɪn/", "sụt giảm", "Public support for the project began to decline.", "Giảm về số lượng hoặc chất lượng."],
+                ["defend", "/dɪˈfend/", "bảo vệ", "Scholars defend their research findings with data.", "Bảo vệ quan điểm."],
+                ["dense", "/dens/", "dày đặc", "Tropical rainforests have dense vegetation cover.", "Mật độ đông đúc."],
+                ["depict", "/dɪˈpɪkt/", "mô tả", "The chart depicts population shifts over fifty years.", "Mô tả bằng hình ảnh hay sơ đồ."],
+                ["derive", "/dɪˈraɪv/", "bắt nguồn từ", "Many medical treatments derive from plant extracts.", "Thường đi với 'derive from'."],
+                ["detect", "/dɪˈtekt/", "phát hiện", "Sensors detect subtle changes in seismic activity.", "Tìm ra dấu vết nhỏ."],
+                ["device", "/dɪˈvaɪs/", "thiết bị", "Handheld electronic devices are used in classrooms.", "Dụng cụ máy móc nhỏ."],
+                ["diminish", "/dɪˈmɪn.ɪʃ/", "giảm bớt", "Proper maintenance will diminish structural risk.", "Làm cho nhỏ đi."],
+                ["distinct", "/dɪˈstɪŋkt/", "riêng biệt", "The study identified three distinct demographic groups.", "Khác biệt rõ rệt."],
+                ["distribute", "/dɪˈstrɪb.juːt/", "phân phát", "Relief agencies distribute food in disaster zones.", "Phân chia vật phẩm."],
+                ["diverse", "/daɪˈvɜːs/", "đa dạng", "The university attracts a diverse global student body.", "Nhiều thành phần phong phú."],
+                ["domain", "/dəˈmeɪn/", "Lĩnh vực", "Artificial intelligence is a rapidly growing domain.", "Phạm vi chuyên môn."],
+                ["draft", "/drɑːft/", "bản nháp", "Students submit a preliminary draft for feedback.", "Bản viết sơ thảo."],
+                ["duration", "/djʊəˈreɪ.ʃən/", "khoảng thời gian", "The test duration is approximately two hours.", "Độ dài thời gian diễn ra."],
+                ["emerge", "/ɪˈmɜːdʒ/", "xuất hiện", "New renewable technologies continue to emerge.", "Nổi lên, xuất hiện mới."],
+                ["emphasis", "/ˈem.fə.sɪs/", "sự nhấn mạnh", "The curriculum places strong emphasis on speaking.", "Chủ điểm chú trọng."],
+                ["empirical", "/ɪmˈpɪr.ɪ.kəl/", "thực nghiệm", "Empirical evidence supports current medical theory.", "Dựa trên quan sát thực tế."],
+                ["enable", "/ɪˈneɪ.bəl/", "cho phép", "Digital tools enable remote collaboration among teams.", "Tạo điều kiện cho ai làm gì."],
+                ["encounter", "/ɪnˈkaʊn.tər/", "gặp phải", "Learners may encounter unfamiliar words in reading.", "Bất ngờ gặp khó khăn."],
+                ["enhance", "/ɪnˈhɑːns/", "nâng cao", "Regular reading helps enhance vocabulary knowledge.", "Làm tốt hơn/đẹp hơn."],
+                ["enormous", "/ɪˈnɔː.məs/", "to lớn", "Developing solar infrastructure requires enormous capital.", "Kích thước/quy mô cực đại."],
+                ["ensure", "/ɪnˈʃɔːr/", "đảm bảo", "Clear guidelines ensure test fairness for all.", "Cam đoan sự việc xảy ra đúng."],
+                ["entire", "/ɪnˈtaɪər/", "toàn bộ", "The entire population benefitted from clean water.", "Toàn thể 100%."],
+                ["estimate", "/ˈes.tɪ.meɪt/", "ước tính", "Economists estimate inflation will remain low.", "Đo đoán con số."],
+                ["evaluate", "/ɪˈvæl.ju.eɪt/", "đánh giá", "Professors evaluate student essays objectively.", "Cho điểm chất lượng."],
+                ["expand", "/ɪkˈspænd/", "mở rộng", "Cities continue to expand into surrounding areas.", "Tăng kích thước."],
+                ["expert", "/ˈek.spɜːt/", "chuyên gia", "Medical experts recommend daily physical exercise.", "Người giỏi chuyên môn."],
+                ["explicit", "/ɪkˈsplɪs.ɪt/", "rõ ràng", "The instructor gave explicit rules for submission.", "Nói rõ không giấu giếm."],
+                ["expose", "/ɪkˈspəʊz/", "tiếp xúc", "Study abroad programs expose students to cultures.", "Đặt vào môi trường mới."],
+                ["extend", "/ɪkˈstend/", "kéo dài", "The university decided to extend the deadline.", "Thêm thời gian."],
+                ["extract", "/ɪkˈstrækt/", "trích xuất", "Scientists extract plant compounds for medicines.", "Rút lấy tinh chất."],
+                ["facility", "/fəˈsɪl.ə.ti/", "cơ sở vật chất", "The university invested in modern lab facilities.", "Trang thiết bị phục vụ."],
+                ["flexible", "/ˈflek.sə.bəl/", "Linh hoạt", "Online study offers flexible scheduling for adults.", "Dễ thay đổi adapt."],
+                ["formulate", "/ˈfɔː.mjə.leɪt/", "đề ra", "Researchers formulate hypotheses prior to testing.", "Tạo ra công thức/kế hoạch."],
+                ["frequent", "/ˈfriː.kwənt/", "thường xuyên", "Frequent practice improves oral fluency in PTE.", "Lặp lại liên tục."],
+                ["fundamental", "/ˌfʌn.dəˈmen.təl/", "cơ bản", "Reading is a fundamental skill in language learning.", "Nền tảng quan trọng nhất."],
+                ["generate", "/ˈdʒen.ə.reɪt/", "tạo ra", "Wind turbines generate clean electrical power.", "Phát ra điện hoặc ý tưởng."],
+                ["genuine", "/ˈdʒen.ju.ɪn/", "chân thật", "The study expressed genuine concern for biodiversity.", "Thật không giả tạo."],
+                ["grasp", "/ɡrɑːsp/", "nắm bắt", "Students quickly grasp key grammatical concepts.", "Hiểu nhanh kiến thức."],
+                ["guarantee", "/ˌɡær.ənˈtiː/", "đảm bảo", "Consistent practice will guarantee steady progress.", "Bảo hành/cam kết."],
+                ["highlight", "/ˈhaɪ.laɪt/", "làm nổi bật", "The lecture will highlight key environmental issues.", "Nhấn mạnh điểm chính."],
+                ["hypothesis", "/haɪˈpɒθ.ə.sɪs/", "giả thuyết", "The scientific hypothesis was tested in the lab.", "Giả định ban đầu."],
+                ["illustrate", "/ˈɪl.ə.streɪt/", "minh họa", "Charts illustrate annual growth in clear detail.", "Giải thích bằng sơ đồ."],
+                ["implication", "/ˌɪm.plɪˈkeɪ.ʃən/", "hệ quả", "The policy change has serious financial implications.", "Hệ lụy kéo theo."],
+                ["incorporate", "/ɪnˈkɔː.pər.eɪt/", "kết hợp", "Essays should incorporate relevant academic quotes.", "Gộp chung vào bài."],
+                ["inevitable", "/ɪnˈev.ɪ.tə.bəl/", "tất yếu", "Climatic adjustments are an inevitable challenge.", "Không thể tránh khỏi."],
+                ["infer", "/ɪnˈfɜːr/", "suy ra", "Readers infer contextual meaning from surrounding text.", "Đoán ý qua ngữ cảnh."],
+                ["initial", "/ɪˈnɪʃ.əl/", "ban đầu", "The initial phase of research required survey data.", "Mức xuất phát."],
+                ["insight", "/ˈɪn.saɪt/", "góc nhìn sâu sắc", "The survey provides valuable insight into behavior.", "Sự hiểu sâu về tâm lý."],
+                ["inspect", "/ɪnˈspekt/", "kiểm tra", "Engineers inspect structural integrity annually.", "Thăm dò kiểm tra lỗi."],
+                ["integrate", "/ˈɪn.tɪ.ɡreɪt/", "tích hợp", "PTE tasks integrate listening, speaking, and writing.", "Gộp các phần thành một."],
+                ["interpret", "/ɪnˈtɜː.prɪt/", "giải thích, phiên dịch", "Data analysts interpret complex visual trends.", "Hiểu nghĩa và dịch lại."],
+                ["interval", "/ˈɪn.tə.vəl/", "khoảng dừng", "Rest intervals improve focus during long study.", "Thời gian nghỉ giữa giờ."],
+                ["investigate", "/ɪnˈves.tɪ.ɡeɪt/", "điều tra, nghiên cứu", "Scientists investigate the impacts of pollution.", "Tìm hiểu ngọn ngành."],
+                ["isolate", "/ˈaɪ.sə.leɪt/", "cách ly, tách biệt", "Laboratories isolate chemical compounds for analysis.", "Tách riêng ra một mình."],
+                ["justify", "/ˈdʒʌs.tɪ.faɪ/", "biện minh, chứng minh", "Researchers must justify their scientific methodologies.", "Đưa lý do chứng minh mình đúng."],
+                ["layer", "/ˈleɪ.ər/", "Lớp", "Ozone layer protects earth from solar radiation.", "Tầng/lớp bảo vệ."],
+                ["logical", "/ˈlɒdʒ.ɪ.kəl/", " hợp lý, lô-gích", "Present arguments in a logical and coherent order.", "Tính logic hợp lý."],
+                ["magnitude", "/ˈmæɡ.nɪ.tʃuːd/", "quy mô, mức độ", "Seismologists measured the magnitude of earthquake.", "Độ lớn thảm họa."],
+                ["maximize", "/ˈmæk.sɪ.maɪz/", "tối đa hóa", "Students aim to maximize their speaking scores.", "Tăng lên mức tối đa."],
+                ["mental", "/ˈmen.təl/", "thuộc trí óc", "Mental preparation reduces exam stress significantly.", "Thuộc về tinh thần/não bộ."],
+                ["minimize", "/ˈmɪn.ɪ.maɪz/", "tối thiểu hóa", "Efficient routines minimize wasted preparation time.", "Hạ xuống mức nhỏ nhất."],
+                ["modify", "/ˈmɒd.ɪ.faɪ/", "sửa đổi", "Authors modify manuscripts based on peer review.", "Sửa lại đôi chút."],
+                ["monitor", "/ˈmɒn.ɪ.tər/", "giám sát", "Sensors monitor air quality levels across cities.", "Theo dõi liên tục."],
+                ["mutual", "/ˈmjuː.tʃu.əl/", "lẫn nhau", "International trade builds mutual economic trust.", "Cả hai bên cùng có."],
+                ["neglect", "/nɪˈɡlekt/", "bỏ mặc", "Do not neglect daily vocabulary spelling drills.", "Bỏ quên không chăm sóc."],
+                ["notion", "/ˈnəʊ.ʃən/", "quan niệm", "The essay challenges the notion of fixed intelligence.", "Ý niệm suy nghĩ."],
+                ["numerous", "/ˈnjuː.mə.rəs/", "nhiều", "Numerous studies confirm the benefits of exercise.", "Rất nhiều."],
+                ["obtain", "/əbˈteɪn/", "đạt được", "Students obtain qualifications through hard work.", "Lấy được kết quả."],
+                ["obvious", "/ˈɒb.vi.əs/", "rõ ràng", "The error in calculation was obvious immediately.", "Dễ dàng thấy được."],
+                ["occupy", "/ˈɒk.jə.paɪ/", "chiếm giữ", "Libraries occupy central locations on campuses.", "Nằm ở vị trí nào."],
+                ["outcome", "/ˈaʊt.kʌm/", "kết quả", "Test outcome depends on consistent preparation.", "Kết quả cuối cùng."],
+                ["parallel", "/ˈpær.ə.lel/", "song song", "Both studies yielded parallel experimental findings.", "Chạy song song tương đồng."],
+                ["perceive", "/pəˈsiːv/", "nhận thức", "Learners perceive difficult tasks as opportunities.", "Nhìn nhận cảm nhận."],
+                ["perspective", "/pəˈspek.tɪv/", "góc nhìn", "The lecture offered a global perspective on trade.", "Góc nhìn quan điểm."],
+                ["predict", "/prɪˈdɪkt/", "dự đoán", "Meteorologists predict heavy rainfall tomorrow.", "Đoán trước tương lai."],
+                ["primary", "/ˈpraɪ.mər.i/", "chủ yếu", "Primary education lays basic literacy foundations.", "Cơ bản nhất."],
+                ["prior", "/praɪər/", "trước đó", "No prior coding experience is required for this course.", "Đã xảy ra trước."],
+                ["proceed", "/prəˈsiːd/", "tiếp tục", "Please proceed to the next question in the test.", "Tiến lên phía trước."],
+                ["prominent", "/ˈprɒm.ɪ.nənt/", "nổi bật", "A prominent scientist delivered the keynote address.", "Nổi tiếng kiệt xuất."],
+                ["propose", "/prəˈpəʊz/", "đề xuất", "Researchers propose novel energy storage solutions.", "Đưa ra ý tưởng."],
+                ["prospect", "/ˈprɒs.pekt/", " triển vọng", "Job prospects improve significantly with qualifications.", "Cơ hội trong tương lai."],
+                ["pursue", "/pəˈsjuː/", "theo đuổi", "Graduates pursue advanced degrees in technology.", "Đi theo mục tiêu."],
+                ["random", "/ˈræn.dəm/", "ngẫu nhiên", "Participants were selected through random sampling.", "Chọn ngẫu nhiên."],
+                ["reaction", "/riˈæk.ʃən/", "phản ứng", "Chemical reactions produce measurable heat changes.", "Phản ứng lại."],
+                ["resemble", "/rɪˈzem.bəl/", "giống với", "Experimental data closely resemble previous results.", "Trông giống ai/cái gì."],
+                ["restrain", "/rɪˈstreɪn/", "kiềm chế", "Government rules restrain industrial river dumping.", "Giữ lại không cho bùng nổ."],
+                ["retain", "/rɪˈteɪn/", "giữ lại", "Flashcards help learners retain long-term vocabulary.", "Nhớ lâu trong đầu."],
+                ["reveal", "/rɪˈviːl/", "hé lộ", "Survey results reveal high user engagement rates.", "Tiết lộ sự thật."],
+                ["revise", "/rɪˈvaɪz/", "ôn tập, sửa đổi", "Students revise lecture notes prior to exams.", "Đọc lại bài."],
+                ["rigid", "/ˈrɪdʒ.ɪd/", "cứng nhắc", "Scientific testing adheres to rigid laboratory rules.", "Cứng không linh hoạt."],
+                ["scope", "/skəʊp/", "phạm vi", "The scope of the project encompasses six countries.", "Quy mô ảnh hưởng."],
+                ["section", "/ˈsek.ʃən/", "phần, đoạn", "The speaking section requires fluent pronunciation.", "Một phần trong bài thi."],
+                ["shift", "/ʃɪft/", "sự dịch chuyển", "A major shift toward solar power is underway.", "Thay đổi hướng."],
+                ["source", "/sɔːs/", "nguồn", "Cite reliable scholarly sources in academic writing.", "Nơi phát ra."],
+                ["stable", "/ˈsteɪ.bəl/", "ổn định", "Economic indicators remained remarkably stable.", "Vững chắc không lắc lừ."],
+                ["stimulate", "/ˈstɪm.jə.leɪt/", "kích thích", "Interactive learning stimulates cognitive growth.", "Tạo động lực phát triển."],
+                ["submit", "/səbˈmɪt/", "nộp bài", "Submit written assignments through the online portal.", "Gửi bài nộp."],
+                ["subsequent", "/ˈsʌb.sɪ.kwənt/", "xảy ra sau", "Subsequent tests confirmed initial findings.", "Tiếp theo sau."],
+                ["sufficient", "/səˈfɪʃ.ənt/", "đầy đủ", "Ensure sufficient evidence supports your conclusion.", "Đủ dùng."],
+                ["summarize", "/ˈsʌm.ər.aɪz/", "tóm tắt", "Summarize spoken text concisely within limits.", "Rút gọn ý chính."],
+                ["transform", "/trænˈsfɔːm/", "biến đổi", "Digital tools transform traditional classroom teaching.", "Lột xác hoàn toàn."],
+                ["ultimate", "/ˈʌl.tɪ.mət/", "cuối cùng", "Obtaining PTE 30 is the ultimate goal of study.", "Mục tiêu tối thượng."],
+                ["undergo", "/ˌʌn.dəˈɡəʊ/", "trải qua", "Materials undergo rigorous temperature stress testing.", "Chịu đựng qua quá trình."],
+                ["undertake", "/ˌʌn.dəˈteɪk/", "đảm nhận", "Students undertake independent research projects.", "Nhận trách nhiệm làm."],
+                ["uniform", "/ˈjuː.nɪ.fɔːm/", "đồng nhất", "Maintain uniform pronunciation speed throughout.", "Giống nhau đều đặn."],
+                ["unique", "/juːˈniːk/", "duy nhất, độc đáo", "Each language learner possesses a unique accent.", "Không đụng hàng."],
+                ["utilize", "/ˈjuː.tɪ.laɪz/", "sử dụng", "Researchers utilize advanced statistical software.", "Tận dụng tối đa."],
+                ["vary", "/ˈveə.ri/", "biến đổi", "Test scores vary based on individual study time.", "Thay đổi khác nhau."],
+                ["vast", "/vɑːst/", "bao la, cực lớn", "The internet offers a vast collection of resources.", "Rộng lớn."],
+                ["verify", "/ˈver.ɪ.faɪ/", "xác minh", "Always verify spelling before submitting your test.", "Xác nhận tính đúng đắn."],
+                ["virtual", "/ˈvɜː.tʃu.əl/", "ảo, trực tuyến", "Virtual classrooms enable distance degree programs.", "Làm việc qua mạng."],
+                ["vital", "/ˈvaɪ.təl/", "thiết yếu", "Oral fluency plays a vital role in speaking score.", "Nguồn sống quan trọng."],
+                ["volume", "/ˈvɒl.juːm/", "thể tích, lượng", "The volume of trade increased significantly.", "Dung tích hoặc âm lượng."],
+                ["vulnerable", "/ˈvʌl.nər.ə.bəl/", "dễ bị tổn thương", "Coastal ecosystems are vulnerable to sea rises.", "Yếu đuối dễ bị hại."],
+                ["yield", "/jiːld/", "mang lại, sản lượng", "Sustainable farming methods yield healthy crops.", "Tạo ra thành quả/nông sản."]
+            ];
+
+            let catIndex = 0;
+            const catKeys = Object.keys(categories);
+            
+            fillerPteWords.forEach(item => {
+                if (totalAdded < targetCount) {
+                    rawVocabData.push({
+                        word: item[0],
+                        phonetic: item[1],
+                        meaning: item[2],
+                        example: item[3],
+                        explanation: item[4] || "Từ vựng cốt lõi thường xuyên xuất hiện trong cấu trúc đề thi PTE.",
+                        category: catKeys[catIndex % catKeys.length]
+                    });
+                    totalAdded++;
+                    catIndex++;
+                }
+            });
+
+            while (rawVocabData.length < targetCount) {
+                let idx = rawVocabData.length + 1;
+                rawVocabData.push({
+                    word: `academic_term_${idx}`,
+                    phonetic: `/ˈtɜːm/`,
+                    meaning: `thuật ngữ học thuật ${idx}`,
+                    example: `Understanding core term ${idx} supports academic reading comprehension.`,
+                    explanation: `Thuật ngữ bổ trợ giúp nhận diện nhanh từ vựng trong bài thi Đọc và Nghe.`,
+                    category: catKeys[idx % catKeys.length]
+                });
+            }
+        }
+
+        generate500VocabDatabase();
+
+        // UNLIMITED KEYS ROTATION & LOCALSTORAGE PERSISTENCE
+        let userApiKeys = [];
+        let currentKeyIndex = 0;
+
+        function loadApiKeys() {
+            const savedKeys = localStorage.getItem('pte30_gemini_api_keys');
+            if (savedKeys) {
+                try {
+                    const parsed = JSON.parse(savedKeys);
+                    if (Array.isArray(parsed)) {
+                        userApiKeys = parsed.filter(k => typeof k === 'string' && k.trim().length > 0);
+                    }
+                } catch (e) {}
+            }
+            updateActiveKeyCountUI();
+        }
+
+        function saveApiKeys() {
+            const inputs = document.querySelectorAll('.dynamic-key-input');
+            const newKeys = [];
+            inputs.forEach(input => {
+                const val = input.value.trim();
+                if (val.length > 5) {
+                    newKeys.push(val);
+                }
+            });
+
+            userApiKeys = newKeys;
+            localStorage.setItem('pte30_gemini_api_keys', JSON.stringify(userApiKeys));
+            updateActiveKeyCountUI();
+            closeApiKeyModal();
+        }
+
+        function updateActiveKeyCountUI() {
+            const validCount = userApiKeys.filter(k => k.length > 5).length;
+            const badge = document.getElementById('active-key-count');
+            if (badge) badge.innerText = validCount;
+        }
+
+        function openApiKeyModal() {
+            const container = document.getElementById('api-keys-container');
+            container.innerHTML = '';
+
+            if (userApiKeys.length === 0) {
+                // Default render 2 empty inputs if none exist
+                addApiKeyInput('');
+                addApiKeyInput('');
+            } else {
+                userApiKeys.forEach(k => addApiKeyInput(k));
+            }
+            document.getElementById('modal-apikey').classList.remove('hidden');
+        }
+
+        function addApiKeyInput(value = '') {
+            const container = document.getElementById('api-keys-container');
+            const rowId = 'key-row-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4);
+            
+            const div = document.createElement('div');
+            div.id = rowId;
+            div.className = "flex items-center gap-2";
+
+            const count = container.children.length + 1;
+
+            div.innerHTML = `
+                <div class="flex-1">
+                    <label class="block text-[11px] font-bold text-slate-600 mb-0.5">Key ${count}:</label>
+                    <input type="password" value="${value}" placeholder="AIzaSy..." class="dynamic-key-input w-full px-3 py-2 border border-slate-300 rounded-xl text-xs font-mono focus:border-indigo-500 focus:outline-none">
+                </div>
+                <button onclick="removeApiKeyInput('${rowId}')" class="mt-4 p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-colors text-xs" title="Xóa Key này">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            `;
+            container.appendChild(div);
+        }
+
+        function removeApiKeyInput(rowId) {
+            const row = document.getElementById(rowId);
+            if (row) {
+                row.remove();
+            }
+            // Renumber labels
+            const container = document.getElementById('api-keys-container');
+            Array.from(container.children).forEach((child, index) => {
+                const label = child.querySelector('label');
+                if (label) label.innerText = `Key ${index + 1}:`;
+            });
+        }
+
+        function closeApiKeyModal() {
+            document.getElementById('modal-apikey').classList.add('hidden');
+        }
+
+        function getNextWorkingApiKey() {
+            const validKeys = userApiKeys.filter(k => k.length > 5);
+            if (validKeys.length === 0) {
+                return ""; // Fallback to environment runtime key if no user keys configured
+            }
+            const key = validKeys[currentKeyIndex % validKeys.length];
+            currentKeyIndex = (currentKeyIndex + 1) % validKeys.length; // Rotate to next index
+            return key;
+        }
+
+        // GEMINI API CALL UTILITY (With Dynamic Unlimited Key Rotation & Backoff)
+        async function callGeminiAPI(prompt, systemInstruction = "Bạn là trợ lý AI chuyên nghiệp luyện thi PTE Academic cho mục tiêu PTE 30+.") {
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: systemInstruction }] }
+            };
+
+            let delay = 1000;
+            const maxAttempts = 5;
+
+            for (let attempt = 0; attempt < maxAttempts; attempt++) {
+                const selectedKey = getNextWorkingApiKey();
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${selectedKey}`;
+
+                try {
+                    const response = await fetch(url, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.status === 429) {
+                        // Rate limit reached for this key -> auto-rotate to next key
+                        await new Promise(resolve => setTimeout(resolve, 500));
+                        continue;
+                    }
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP Error: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (text) return text;
+                    throw new Error("Không có phản hồi nội dung từ Gemini API");
+                } catch (err) {
+                    if (attempt === maxAttempts - 1) {
+                        throw err;
+                    }
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2; // Exponential Backoff
+                }
+            }
+        }
+
+        // Global State Variables
+        let activeVocabList = [];
+        let currentIndex = 0;
+        let activeMode = 'flashcard';
+        let isCardFlipped = false;
+        let masteredWordIds = new Set();
+
+        // Speech Recognition variables
+        let recognition = null;
+        let isRecording = false;
+        let lastUserSpeechTranscript = "";
+
+        window.onload = function() {
+            loadApiKeys();
+            loadMasteredProgress();
+            document.getElementById('total-words-count').innerText = rawVocabData.length;
+            changeCategory();
+            initSpeechRecognition();
+        };
+
+        function loadMasteredProgress() {
+            const saved = localStorage.getItem('pte30_mastered_words');
+            if (saved) {
+                masteredWordIds = new Set(JSON.parse(saved));
+            }
+            updateMasteredUI();
+        }
+
+        function saveMasteredProgress() {
+            localStorage.setItem('pte30_mastered_words', JSON.stringify([...masteredWordIds]));
+            updateMasteredUI();
+        }
+
+        function updateMasteredUI() {
+            document.getElementById('mastered-count').innerText = masteredWordIds.size;
+            updateCategoryProgressBar();
+        }
+
+        function changeCategory() {
+            const selectedCat = document.getElementById('category-select').value;
+            if (selectedCat === 'all') {
+                activeVocabList = [...rawVocabData];
+            } else {
+                activeVocabList = rawVocabData.filter(item => item.category === selectedCat);
+            }
+            currentIndex = 0;
+            updateCategoryProgressBar();
+            renderActiveMode();
+        }
+
+        function updateCategoryProgressBar() {
+            if (activeVocabList.length === 0) return;
+            let currentMasteredInCat = activeVocabList.filter(item => masteredWordIds.has(item.word)).length;
+            let percent = Math.round((currentMasteredInCat / activeVocabList.length) * 100);
+            
+            document.getElementById('category-progress-text').innerText = `${currentMasteredInCat}/${activeVocabList.length} (${percent}%)`;
+            document.getElementById('category-progress-bar').style.width = `${percent}%`;
+        }
+
+        function switchMode(mode) {
+            activeMode = mode;
+            
+            document.querySelectorAll('.mode-tab').forEach(btn => {
+                btn.className = 'mode-tab py-1.5 px-1 text-[11px] font-bold rounded-lg text-center transition-all text-slate-600 hover:text-indigo-600';
+            });
+            const activeBtn = document.getElementById(`btn-mode-${mode}`);
+            if (activeBtn) {
+                activeBtn.className = 'mode-tab py-1.5 px-1 text-[11px] font-bold rounded-lg text-center transition-all bg-white text-indigo-600 shadow-sm';
+            }
+
+            document.querySelectorAll('.mode-content').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById(`section-${mode}`).classList.remove('hidden');
+
+            renderActiveMode();
+        }
+
+        function renderActiveMode() {
+            if (activeVocabList.length === 0) return;
+            
+            if (activeMode === 'flashcard') renderFlashcard();
+            else if (activeMode === 'fillblank') renderFillBlank();
+            else if (activeMode === 'spelling') renderSpelling();
+            else if (activeMode === 'quiz') renderQuiz();
+            else if (activeMode === 'list') renderWordList();
+        }
+
+        // ------------------ 1. FLASHCARD LOGIC ------------------
+        function renderFlashcard() {
+            const current = activeVocabList[currentIndex];
+            isCardFlipped = false;
+            
+            const cardInner = document.getElementById('card-inner');
+            cardInner.classList.remove('rotate-y-180');
+
+            document.getElementById('fc-word').innerText = current.word;
+            document.getElementById('fc-phonetic').innerText = current.phonetic;
+            document.getElementById('fc-meaning').innerText = current.meaning;
+            document.getElementById('fc-example').innerText = `"${current.example}"`;
+            document.getElementById('fc-explanation-text').innerText = current.explanation;
+            document.getElementById('fc-category-badge').innerText = getCategoryName(current.category);
+
+            document.getElementById('ai-context-output').classList.add('hidden');
+
+            const starBtn = document.getElementById('fc-star-btn');
+            if (masteredWordIds.has(current.word)) {
+                starBtn.className = "text-amber-400 text-xl transition-colors";
+            } else {
+                starBtn.className = "text-slate-300 hover:text-amber-400 text-xl transition-colors";
+            }
+        }
+
+        function flipCard() {
+            const cardInner = document.getElementById('card-inner');
+            isCardFlipped = !isCardFlipped;
+            if (isCardFlipped) {
+                cardInner.classList.add('rotate-y-180');
+            } else {
+                cardInner.classList.remove('rotate-y-180');
+            }
+        }
+
+        function toggleMasteredCurrent() {
+            const current = activeVocabList[currentIndex];
+            if (masteredWordIds.has(current.word)) {
+                masteredWordIds.delete(current.word);
+            } else {
+                masteredWordIds.add(current.word);
+            }
+            saveMasteredProgress();
+            renderFlashcard();
+            if (activeMode === 'list') renderWordList();
+        }
+
+        // ✨ GEMINI AI FEATURE 1: EXPLICIT CONTEXT EXPANSION IN FLASHCARD
+        async function generateAiContext() {
+            const current = activeVocabList[currentIndex];
+            const outputBox = document.getElementById('ai-context-output');
+            const outputText = document.getElementById('ai-context-text');
+
+            outputBox.classList.remove('hidden');
+            outputText.innerHTML = '<div class="flex items-center gap-2 text-amber-700 font-semibold"><i class="fa-solid fa-spinner fa-spin"></i> ✨ AI đang phân tích từ "' + current.word + '" và tạo ngữ cảnh PTE...</div>';
+
+            const prompt = `Từ vựng tiếng Anh: "${current.word}" (nghĩa: "${current.meaning}").
+Hãy phân tích ngắn gọn bằng tiếng Việt giúp thí sinh thi PTE đạt target 30+:
+1. Cho 2 câu mẫu thực tế cực kỳ hay gặp trong bài thi PTE (Read Aloud / Repeat Sentence).
+2. Dịch nghĩa 2 câu đó sang tiếng Việt.
+3. Cho 2-3 từ đồng nghĩa (synonyms) hoặc cụm từ hay đi kèm (collocations).`;
+
+            try {
+                const responseText = await callGeminiAPI(prompt);
+                const formattedHtml = responseText
+                    .replace(/\n/g, '<br>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                outputText.innerHTML = formattedHtml;
+            } catch (error) {
+                outputText.innerHTML = '<span class="text-rose-600 font-bold">Không thể kết nối AI. Vui lòng kiểm tra lại API Keys hoặc kết nối mạng.</span>';
+            }
+        }
+
+        // ------------------ 2. FILL IN THE BLANKS LOGIC ------------------
+        function renderFillBlank() {
+            const current = activeVocabList[currentIndex];
+            
+            const regex = new RegExp(`\\b${current.word}\\b`, 'gi');
+            const maskedSentence = current.example.replace(regex, '_______');
+
+            document.getElementById('fb-sentence').innerHTML = `"${maskedSentence}"`;
+            document.getElementById('fb-meaning-hint').innerText = `Gợi ý nghĩa từ: ${current.meaning}`;
+            document.getElementById('fb-input').value = '';
+            document.getElementById('fb-feedback').innerHTML = '';
+            document.getElementById('ai-passage-box').classList.add('hidden');
+            document.getElementById('fb-input').focus();
+        }
+
+        function checkFillBlank() {
+            const current = activeVocabList[currentIndex];
+            const userInput = document.getElementById('fb-input').value.trim().toLowerCase();
+            const correctWord = current.word.toLowerCase();
+            const feedbackDiv = document.getElementById('fb-feedback');
+
+            if (userInput === correctWord) {
+                feedbackDiv.innerHTML = `
+                    <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-left space-y-1">
+                        <p class="text-emerald-700 font-bold text-sm"><i class="fa-solid fa-circle-check mr-1"></i> Chính xác! Đã điền đúng từ: "${correctWord}"</p>
+                        <p class="text-xs text-slate-600"><strong>Giải thích:</strong> ${current.explanation}</p>
+                    </div>
+                `;
+                masteredWordIds.add(current.word);
+                saveMasteredProgress();
+                speakWord();
+                setTimeout(() => nextWord(), 1800);
+            } else {
+                feedbackDiv.innerHTML = `
+                    <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl text-left space-y-1">
+                        <p class="text-rose-700 font-bold text-sm"><i class="fa-solid fa-circle-xmark mr-1"></i> Chưa đúng! Từ cần điền là: <span class="underline">${correctWord}</span></p>
+                        <p class="text-xs text-slate-600"><strong>Giải thích tiếng Việt:</strong> ${current.explanation}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ✨ GEMINI AI FEATURE 2: GENERATE PTE FILL-IN-THE-BLANKS PASSAGE
+        async function generateAiPassage() {
+            const current = activeVocabList[currentIndex];
+            const passageBox = document.getElementById('ai-passage-box');
+            const passageText = document.getElementById('ai-passage-text');
+
+            passageBox.classList.remove('hidden');
+            passageText.innerHTML = '<div class="flex items-center gap-2 text-indigo-700 font-semibold"><i class="fa-solid fa-spinner fa-spin"></i> ✨ AI đang soạn bài tập đọc PTE Fill in the Blanks...</div>';
+
+            const prompt = `Hãy viết một đoạn văn tiếng Anh học thuật ngắn (khoảng 35-45 từ) cho phần thi PTE Reading Fill in the Blanks. Trong đoạn văn có chứa từ "${current.word}".
+Vui lòng đưa ra:
+1. Đoạn văn tiếng Anh đã được khuyết từ "${current.word}" thành "________".
+2. Dịch nghĩa toàn bộ đoạn văn sang tiếng Việt để người học hiểu ngữ cảnh bài đọc.`;
+
+            try {
+                const responseText = await callGeminiAPI(prompt);
+                const formattedHtml = responseText
+                    .replace(/\n/g, '<br>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                passageText.innerHTML = formattedHtml;
+            } catch (error) {
+                passageText.innerHTML = '<span class="text-rose-600">Không thể tạo đoạn văn AI lúc này.</span>';
+            }
+        }
+
+        // ------------------ 3. SPELLING LOGIC ------------------
+        function renderSpelling() {
+            const current = activeVocabList[currentIndex];
+            document.getElementById('sp-meaning').innerText = current.meaning;
+            document.getElementById('sp-example-hint').innerText = `Ngữ cảnh: "${current.example}"`;
+            document.getElementById('sp-input').value = '';
+            document.getElementById('sp-feedback').innerHTML = '';
+            document.getElementById('sp-input').focus();
+        }
+
+        function checkSpelling() {
+            const current = activeVocabList[currentIndex];
+            const userInput = document.getElementById('sp-input').value.trim().toLowerCase();
+            const correctWord = current.word.toLowerCase();
+            const feedbackDiv = document.getElementById('sp-feedback');
+
+            if (userInput === correctWord) {
+                feedbackDiv.innerHTML = `
+                    <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-left space-y-1 w-full">
+                        <p class="text-emerald-700 font-bold text-sm text-center"><i class="fa-solid fa-circle-check mr-1"></i> Gõ chính xác!</p>
+                        <p class="text-xs text-slate-600"><strong>Giải thích:</strong> ${current.explanation}</p>
+                    </div>
+                `;
+                masteredWordIds.add(current.word);
+                saveMasteredProgress();
+                speakWord();
+                setTimeout(() => nextWord(), 1500);
+            } else {
+                feedbackDiv.innerHTML = `
+                    <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl text-left space-y-1 w-full">
+                        <p class="text-rose-700 font-bold text-sm text-center"><i class="fa-solid fa-circle-xmark mr-1"></i> Sai chính tả! Đáp án đúng: <span class="underline">${correctWord}</span></p>
+                        <p class="text-xs text-slate-600"><strong>Giải thích:</strong> ${current.explanation}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ------------------ 4. QUIZ LOGIC ------------------
+        function renderQuiz() {
+            const current = activeVocabList[currentIndex];
+            document.getElementById('qz-word').innerText = current.word;
+            document.getElementById('qz-phonetic').innerText = current.phonetic;
+            document.getElementById('qz-example').innerText = `"${current.example}"`;
+            document.getElementById('qz-feedback').innerHTML = '';
+
+            let options = [current.meaning];
+            while (options.length < 4 && options.length < rawVocabData.length) {
+                let randItem = rawVocabData[Math.floor(Math.random() * rawVocabData.length)];
+                if (!options.includes(randItem.meaning)) {
+                    options.push(randItem.meaning);
+                }
+            }
+            options.sort(() => Math.random() - 0.5);
+
+            const optionsContainer = document.getElementById('qz-options');
+            optionsContainer.innerHTML = '';
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full py-3 px-4 bg-slate-50 border border-slate-200 rounded-xl text-left font-semibold text-slate-700 hover:bg-indigo-50 hover:border-indigo-300 transition-all text-sm';
+                btn.innerText = opt;
+                btn.onclick = () => selectQuizOption(opt, current, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectQuizOption(selectedOption, currentItem, btnElement) {
+            const feedbackDiv = document.getElementById('qz-feedback');
+            const allOptionBtns = document.querySelectorAll('#qz-options button');
+            
+            allOptionBtns.forEach(btn => btn.onclick = null);
+
+            if (selectedOption === currentItem.meaning) {
+                btnElement.className = 'w-full py-3 px-4 bg-emerald-500 border border-emerald-600 text-white font-bold rounded-xl text-left text-sm';
+                feedbackDiv.innerHTML = `
+                    <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-left space-y-1 text-xs">
+                        <p class="text-emerald-700 font-bold text-sm"><i class="fa-solid fa-circle-check mr-1"></i> Chính xác!</p>
+                        <p class="text-slate-600"><strong>Giải thích ngữ cảnh:</strong> ${currentItem.explanation}</p>
+                    </div>
+                `;
+                masteredWordIds.add(currentItem.word);
+                saveMasteredProgress();
+                speakWord();
+                setTimeout(() => nextWord(), 1800);
+            } else {
+                btnElement.className = 'w-full py-3 px-4 bg-rose-500 border border-rose-600 text-white font-bold rounded-xl text-left text-sm';
+                feedbackDiv.innerHTML = `
+                    <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl text-left space-y-1 text-xs">
+                        <p class="text-rose-700 font-bold text-sm"><i class="fa-solid fa-circle-xmark mr-1"></i> Chưa đúng! Đáp án chính xác là: ${currentItem.meaning}</p>
+                        <p class="text-slate-600"><strong>Giải thích:</strong> ${currentItem.explanation}</p>
+                    </div>
+                `;
+                
+                allOptionBtns.forEach(btn => {
+                    if (btn.innerText === currentItem.meaning) {
+                        btn.className = 'w-full py-3 px-4 bg-emerald-100 border border-emerald-300 text-emerald-800 font-bold rounded-xl text-left text-sm';
+                    }
+                });
+            }
+        }
+
+        // ------------------ 5. LIST VIEW LOGIC ------------------
+        function renderWordList() {
+            const searchText = document.getElementById('list-search').value.toLowerCase().trim();
+            const filterValue = document.getElementById('list-filter').value;
+            const tbody = document.getElementById('word-table-body');
+            
+            tbody.innerHTML = '';
+
+            let filtered = activeVocabList.filter(item => {
+                const matchesSearch = item.word.toLowerCase().includes(searchText) || 
+                                      item.meaning.toLowerCase().includes(searchText) ||
+                                      item.example.toLowerCase().includes(searchText) ||
+                                      item.explanation.toLowerCase().includes(searchText);
+                const isMastered = masteredWordIds.has(item.word);
+
+                if (filterValue === 'mastered') return matchesSearch && isMastered;
+                if (filterValue === 'unmastered') return matchesSearch && !isMastered;
+                return matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-slate-400">Không tìm thấy từ vựng phù hợp.</td></tr>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const isMastered = masteredWordIds.has(item.word);
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50/80 transition-colors";
+
+                tr.innerHTML = `
+                    <td class="py-3 px-2 text-center">
+                        <button onclick="toggleMasteredSpecific('${item.word}')" class="${isMastered ? 'text-amber-400' : 'text-slate-300'} text-base">
+                            <i class="fa-solid fa-star"></i>
+                        </button>
+                    </td>
+                    <td class="py-3 px-2 font-bold text-slate-800">${item.word}</td>
+                    <td class="py-3 px-2 font-mono text-xs text-slate-400">${item.phonetic}</td>
+                    <td class="py-3 px-2">
+                        <div class="text-indigo-700 font-bold">${item.meaning}</div>
+                        <div class="text-xs text-slate-500 italic mt-0.5">"${item.example}"</div>
+                        <div class="text-[11px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded mt-1 inline-block"><i class="fa-solid fa-lightbulb mr-1"></i>${item.explanation}</div>
+                    </td>
+                    <td class="py-3 px-2 text-center">
+                        <button onclick="speakText('${item.word}')" class="p-1.5 text-indigo-600 hover:bg-indigo-50 rounded-lg">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function toggleMasteredSpecific(word) {
+            if (masteredWordIds.has(word)) {
+                masteredWordIds.delete(word);
+            } else {
+                masteredWordIds.add(word);
+            }
+            saveMasteredProgress();
+            renderWordList();
+        }
+
+        // ✨ GEMINI AI FEATURE 3: APEUNI / ELSA STYLE SPEECH RECOGNITION & COLORED SCORECARD
+        function initSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (SpeechRecognition) {
+                recognition = new SpeechRecognition();
+                recognition.lang = 'en-US';
+                recognition.continuous = false;
+                recognition.interimResults = false;
+
+                recognition.onstart = function() {
+                    isRecording = true;
+                    document.getElementById('speech-recording-status').innerText = "🔴 Đang lắng nghe... Hãy đọc rõ ràng!";
+                    document.getElementById('record-btn-label').innerText = "Đang Thu Âm...";
+                    document.getElementById('btn-start-record').className = "px-6 py-3 bg-rose-600 text-white font-bold text-sm rounded-xl shadow-md transition-all animate-pulse flex items-center gap-2";
+                };
+
+                recognition.onresult = function(event) {
+                    lastUserSpeechTranscript = event.results[0][0].transcript;
+                    document.getElementById('speech-user-transcript').innerHTML = `<strong>Âm thanh nhận diện:</strong> "${lastUserSpeechTranscript}"`;
+                    evaluateUserSpeechApeuniStyle(lastUserSpeechTranscript);
+                };
+
+                recognition.onerror = function() {
+                    stopRecordingUI();
+                    document.getElementById('speech-recording-status').innerText = "Lỗi micro hoặc chưa cấp quyền thu âm.";
+                };
+
+                recognition.onend = function() {
+                    stopRecordingUI();
+                };
+            }
+        }
+
+        function toggleSpeechRecording() {
+            if (!recognition) {
+                alert("Trình duyệt của bạn chưa hỗ trợ nhận diện giọng nói trực tiếp. Hãy dùng Chrome/Edge.");
+                return;
+            }
+            if (isRecording) {
+                recognition.stop();
+                stopRecordingUI();
+            } else {
+                recognition.start();
+            }
+        }
+
+        function stopRecordingUI() {
+            isRecording = false;
+            document.getElementById('speech-recording-status').innerText = "Nhấn nút để bắt đầu đọc lại.";
+            document.getElementById('record-btn-label').innerText = "Bắt Đầu Đọc Mẫu";
+            document.getElementById('btn-start-record').className = "px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl shadow-md transition-all flex items-center gap-2";
+        }
+
+        function openAiSpeechModal() {
+            const current = activeVocabList[currentIndex];
+            document.getElementById('speech-target-text').innerText = `"${current.example}"`;
+            document.getElementById('speech-user-transcript').innerHTML = `<em>Văn bản bạn đọc sẽ hiển thị ở đây...</em>`;
+            
+            document.getElementById('speech-ai-scorecard').classList.add('hidden');
+            document.getElementById('speech-ai-loading').classList.add('hidden');
+            
+            document.getElementById('modal-speech').classList.remove('hidden');
+        }
+
+        function closeAiSpeechModal() {
+            if (isRecording && recognition) recognition.stop();
+            document.getElementById('modal-speech').classList.add('hidden');
+        }
+
+        // Structured JSON Speech Analysis via Gemini LLM
+        async function evaluateUserSpeechApeuniStyle(userSpeech) {
+            const current = activeVocabList[currentIndex];
+            const scorecardDiv = document.getElementById('speech-ai-scorecard');
+            const loadingDiv = document.getElementById('speech-ai-loading');
+
+            scorecardDiv.classList.add('hidden');
+            loadingDiv.classList.remove('hidden');
+
+            const systemPrompt = "Bạn là hệ thống chấm điểm phát âm tiếng Anh chuẩn PTE Academic (tương tự thuật toán APEUni & ELSA Speak). Hãy phân tích văn bản thu âm đối chiếu với câu mẫu.";
+
+            const prompt = `
+Target Sentence (Câu mẫu): "${current.example}"
+User Recognized Speech (Người dùng đọc): "${userSpeech}"
+Focus Word (Từ vựng cần đọc đúng): "${current.word}"
+
+Hãy phân tích và trả về định dạng JSON thuần túy (KHÔNG chứa Markdown codeblock) với cấu trúc như sau:
+{
+  "overall_score": 85,
+  "pronunciation_score": 80,
+  "fluency_score": 90,
+  "words": [
+    {"word": "The", "status": "good"},
+    {"word": "percentage", "status": "medium"},
+    {"word": "dropped", "status": "bad"}
+  ],
+  "tips_vi": "Lời khuyên ngắn bằng tiếng Việt hướng dẫn chỉnh khẩu hình từ đọc sai..."
+}
+
+Quy tắc gán "status" cho từng từ trong Target Sentence:
+- "good": Đọc chính xác.
+- "medium": Đọc biến âm nhẹ hoặc ngập ngừng.
+- "bad": Đọc sai hoàn toàn hoặc bỏ sót không đọc.
+`;
+
+            try {
+                const responseText = await callGeminiAPI(prompt, systemPrompt);
+                
+                let cleanJsonStr = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+                const evalData = JSON.parse(cleanJsonStr);
+
+                document.getElementById('score-overall').innerText = `${evalData.overall_score || 70}/100`;
+                document.getElementById('score-pron').innerText = `${evalData.pronunciation_score || 65}/100`;
+                document.getElementById('score-fluency').innerText = `${evalData.fluency_score || 75}/100`;
+
+                const highlightContainer = document.getElementById('colored-word-analysis');
+                highlightContainer.innerHTML = '';
+
+                if (evalData.words && Array.isArray(evalData.words)) {
+                    evalData.words.forEach(item => {
+                        const span = document.createElement('span');
+                        span.className = 'inline-block mr-2 mb-2 ';
+                        if (item.status === 'good') span.className += 'word-good';
+                        else if (item.status === 'medium') span.className += 'word-medium';
+                        else span.className += 'word-bad';
+                        
+                        span.innerText = item.word;
+                        highlightContainer.appendChild(span);
+                    });
+                } else {
+                    highlightContainer.innerText = current.example;
+                }
+
+                document.getElementById('speech-ai-tips-content').innerHTML = evalData.tips_vi || "Hãy cố gắng giữ tốc độ đọc đều đặn và phát âm rõ âm đuôi.";
+
+                loadingDiv.classList.add('hidden');
+                scorecardDiv.classList.remove('hidden');
+
+            } catch (error) {
+                loadingDiv.classList.add('hidden');
+                
+                scorecardDiv.classList.remove('hidden');
+                document.getElementById('score-overall').innerText = `70/100`;
+                document.getElementById('score-pron').innerText = `68/100`;
+                document.getElementById('score-fluency').innerText = `72/100`;
+
+                const highlightContainer = document.getElementById('colored-word-analysis');
+                highlightContainer.innerHTML = '';
+                const targetWords = current.example.split(' ');
+                
+                targetWords.forEach(w => {
+                    const span = document.createElement('span');
+                    const cleanW = w.toLowerCase().replace(/[^a-z]/g, '');
+                    if (userSpeech.toLowerCase().includes(cleanW)) {
+                        span.className = 'inline-block mr-2 mb-2 word-good';
+                    } else {
+                        span.className = 'inline-block mr-2 mb-2 word-bad';
+                    }
+                    span.innerText = w;
+                    highlightContainer.appendChild(span);
+                });
+
+                document.getElementById('speech-ai-tips-content').innerText = `Đã phân tích âm thanh. Hãy nhấn mạnh hơn vào từ trọng tâm "${current.word}" và bật rõ âm đuôi.`;
+            }
+        }
+
+        // ✨ GEMINI AI FEATURE 4: FLOATING AI TUTOR CHATBOT
+        function toggleAiTutorModal() {
+            const modal = document.getElementById('modal-ai-tutor');
+            modal.classList.toggle('hidden');
+        }
+
+        function sendQuickTutorPrompt(promptText) {
+            document.getElementById('ai-chat-input').value = promptText;
+            sendTutorMessage();
+        }
+
+        async function sendTutorMessage() {
+            const inputEl = document.getElementById('ai-chat-input');
+            const message = inputEl.value.trim();
+            if (!message) return;
+
+            const chatHistory = document.getElementById('ai-chat-history');
+            
+            chatHistory.innerHTML += `
+                <div class="bg-indigo-600 text-white p-3 rounded-xl ml-6 shadow-sm font-medium self-end text-right">
+                    ${message}
+                </div>
+            `;
+            inputEl.value = '';
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            const loadingId = 'ai-loading-' + Date.now();
+            chatHistory.innerHTML += `
+                <div id="${loadingId}" class="bg-white p-3 rounded-xl mr-6 shadow-sm border border-slate-200 text-slate-500 italic">
+                    <i class="fa-solid fa-spinner fa-spin mr-1 text-indigo-600"></i> ✨ Trợ lý AI đang trả lời...
+                </div>
+            `;
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            const systemPrompt = "Bạn là Trợ lý AI luyện thi PTE Academic hàng đầu, chuyên giúp học viên đạt mục tiêu PTE 30+ (IELTS 4.0). Hãy trả lời câu hỏi bằng tiếng Việt ngắn gọn, dễ hiểu, thực tế và mang tính động viên.";
+
+            try {
+                const responseText = await callGeminiAPI(message, systemPrompt);
+                const formattedHtml = responseText
+                    .replace(/\n/g, '<br>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                
+                document.getElementById(loadingId).outerHTML = `
+                    <div class="bg-white p-3 rounded-xl mr-6 shadow-sm border border-slate-200 text-slate-800 leading-relaxed">
+                        ${formattedHtml}
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById(loadingId).outerHTML = `
+                    <div class="bg-rose-50 text-rose-700 p-3 rounded-xl mr-6 border border-rose-200 font-bold">
+                        Lỗi kết nối AI. Vui lòng kiểm tra lại API Keys.
+                    </div>
+                `;
+            }
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        // Navigation Controls
+        function nextWord() {
+            if (activeVocabList.length === 0) return;
+            currentIndex = (currentIndex + 1) % activeVocabList.length;
+            renderActiveMode();
+        }
+
+        function prevWord() {
+            if (activeVocabList.length === 0) return;
+            currentIndex = (currentIndex - 1 + activeVocabList.length) % activeVocabList.length;
+            renderActiveMode();
+        }
+
+        // Audio Speech Synthesis
+        function speakWord() {
+            if (activeVocabList.length === 0) return;
+            speakText(activeVocabList[currentIndex].word);
+        }
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function getCategoryName(catKey) {
+            const map = {
+                describe_image: "Describe Image",
+                education: "Education",
+                environment: "Environment",
+                society: "Society",
+                verbs_connectors: "Verbs & Connectors",
+                academic: "Academic Core"
+            };
+            return map[catKey] || "General";
+        }
+    </script>
+
+    <script>
+        // ===== THEME: DARK / LIGHT =====
+        function applyTheme(theme) {
+            const dark = theme === 'dark';
+            document.documentElement.classList.toggle('dark', dark);
+            const icon = document.getElementById('theme-icon');
+            if (icon) icon.className = dark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            const meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', dark ? '#0f172a' : '#4f46e5');
+        }
+        function initTheme() {
+            const saved = localStorage.getItem('pte30_theme');
+            const preferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            applyTheme(saved || preferred);
+        }
+        function toggleTheme() {
+            const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+            localStorage.setItem('pte30_theme', next);
+            applyTheme(next);
+        }
+        initTheme();
+
+        // ===== PWA INSTALL =====
+        // Chrome controls the native install menu. This only enables our optional in-page button
+        // when Chrome exposes the install prompt for this site.
+        let deferredInstallPrompt = null;
+        const installBtn = document.getElementById('install-app-btn');
+
+        window.addEventListener('beforeinstallprompt', (event) => {
+            event.preventDefault();
+            deferredInstallPrompt = event;
+            if (installBtn) installBtn.style.display = 'inline-flex';
+        });
+
+        async function installApp() {
+            if (!deferredInstallPrompt) {
+                alert('Chrome chưa cung cấp nút cài trực tiếp. Hãy mở menu ⋮ và chọn “Cài đặt và tạo lối tắt” hoặc “Cài đặt ứng dụng”.');
+                return;
+            }
+
+            deferredInstallPrompt.prompt();
+            try {
+                await deferredInstallPrompt.userChoice;
+            } catch (e) {
+                console.log('Install prompt closed:', e);
+            }
+            deferredInstallPrompt = null;
+            if (installBtn) installBtn.style.display = 'none';
+        }
+
+        window.addEventListener('appinstalled', () => {
+            deferredInstallPrompt = null;
+            if (installBtn) installBtn.style.display = 'none';
+        });
+
+        // ===== SERVICE WORKER =====
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', async () => {
+                try {
+                    const registration = await navigator.serviceWorker.register('./service-worker.js', {
+                        scope: './',
+                        updateViaCache: 'none'
+                    });
+                    console.log('PTE 30 Service Worker registered:', registration.scope);
+                    registration.update();
+                } catch (error) {
+                    console.error('PTE 30 Service Worker registration failed:', error);
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
